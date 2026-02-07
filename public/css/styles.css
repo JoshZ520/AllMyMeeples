@@ -1,0 +1,33 @@
+:root {
+  color-scheme: light;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: "Georgia", "Times New Roman", serif;
+  background: #f3efe7;
+  color: #2b241b;
+}
+
+.site-header {
+  padding: 2.5rem 2rem 1rem;
+  text-align: center;
+  background: linear-gradient(120deg, #f3efe7, #e0d4c2);
+}
+
+.site-main {
+  padding: 2rem;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.hero {
+  border: 1px solid #d2c3ae;
+  padding: 1.5rem;
+  background: #fffdf8;
+  box-shadow: 6px 6px 0 #d2c3ae;
+}
