@@ -1,20 +1,93 @@
-<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title><%= title %></title>
-    <link rel="stylesheet" href="/css/styles.css" />
-  </head>
-  <body>
-    <header class="site-header">
-      <h1><%= title %></h1>
-    </header>
-    <main class="site-main">
-      <section class="hero">
-        <p><%= message %></p>
-      </section>
-    </main>
-    <script src="/js/main.js"></script>
-  </body>
-</html>
+<section class="hero">
+  <div class="hero-content">
+    <p class="eyebrow">Tabletop collection tracker</p>
+    <h1><%= title %></h1>
+    <div class="hero-actions">
+      <a class="button primary" href="#collection">View collection</a>
+      <a class="button ghost" href="#wishlist">Start a wishlist</a>
+    </div>
+  </div>
+  <div class="hero-card">
+    <h2>Tonight's table</h2>
+    <ul>
+      <li>Players: 4</li>
+      <li>Ready games: 12</li>
+      <li>Avg. playtime: 60 min</li>
+    </ul>
+  </div>
+</section>
+<section class="carousel" aria-label="Featured games">
+  <div class="carousel_track" id="featured-carousel">
+    <figure class="carousel_slide is-active">
+      <img class="carousel_image" src="/images/game-1.jpg" alt="..." />
+      <figcaption class="carousel_caption">Caption text</figcaption>
+    </figure>
+    <figure class="carousel_slide">
+      <img class="carousel_image" src="/images/game-2.jpg" alt="..." />
+      <figcaption class="carousel_caption">Caption text</figcaption>
+    </figure>
+  </div>
+
+  <div class="carousel_controls">
+    <button class="carousel_button" data-action="prev" aria-label="Previous slide">Prev</button>
+    <button class="carousel_button" data-action="next" aria-label="Next slide">Next</button>
+  </div>
+
+  <div class="carousel_dots">
+    <button class="carousel_dot is-active" data-slide="0" aria-label="Slide 1"></button>
+    <button class="carousel_dot" data-slide="1" aria-label="Slide 2"></button>
+  </div>
+</section>
+<section id="collection" class="section">
+  <div class="section-header">
+    <h2>Collection highlights</h2>
+    <p>Track shelves, expansions, and who loves each game.</p>
+  </div>
+  <div class="card-grid">
+    <article class="card">
+      <h3>Unplayed gems</h3>
+      <p>Keep a gentle reminder of the next box to open.</p>
+    </article>
+    <article class="card">
+      <h3>Group favorites</h3>
+      <p>Rank games by your regular table and mood.</p>
+    </article>
+    <article class="card">
+      <h3>Ready-to-go</h3>
+      <p>Filter by player count and time on weeknights.</p>
+    </article>
+  </div>
+</section>
+
+<section id="wishlist" class="section">
+  <div class="section-header">
+    <h2>Wishlist planning</h2>
+    <p>Keep the next big box on your radar without the clutter.</p>
+  </div>
+  <div class="note">
+    <p>Add notes like "holiday gift" or "must play at meetup".</p>
+  </div>
+</section>
+
+<section id="events" class="section">
+  <div class="section-header">
+    <h2>Game night events</h2>
+    <p>Schedule sessions, assign hosts, and keep the vibe cozy.</p>
+  </div>
+  <div class="timeline">
+    <div class="timeline-item">
+      <span class="tag">Fri</span>
+      <div>
+        <h3>First play</h3>
+        <p>Short rules teach + warm-up game.</p>
+      </div>
+    </div>
+    <div class="timeline-item">
+      <span class="tag">Sat</span>
+      <div>
+        <h3>Main event</h3>
+        <p>Pick a longer campaign or big box adventure.</p>
+      </div>
+    </div>
+  </div>
+</section>
