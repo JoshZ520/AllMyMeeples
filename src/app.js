@@ -1,8 +1,10 @@
-const express = require("express");
-const expressLayouts = require("express-ejs-layouts");
-const path = require("path");
-const indexRoutes = require("./routes/index");
+import express from "express";
+import expressLayouts from "express-ejs-layouts";
+import path from "path";
+import { fileURLToPath } from "url";
+import indexRoutes from "./routes/index.js";
 
+const __dirname = fileURLToPath(new URL(".", import.meta.url));
 const app = express();
 
 app.set("views", path.join(__dirname, "views"));
@@ -20,4 +22,4 @@ app.use((req, res) => {
   res.status(404).render("index", { title: "Not Found", message: "Page not found." });
 });
 
-module.exports = app;
+export default app;

@@ -3,59 +3,25 @@
     <p class="eyebrow">Tabletop collection tracker</p>
     <h1><%= title %></h1>
     <div class="hero-actions">
-      <a class="button primary" href="#collection">View collection</a>
-      <a class="button ghost" href="#wishlist">Start a wishlist</a>
+      <a class="button primary" href="/collection">View My Shelf</a>
+      <a class="button ghost" href="#games">Browse Games</a>
     </div>
   </div>
   <div class="hero-card">
-    <h2>Tonight's table</h2>
-    <ul>
-      <li>Players: 4</li>
-      <li>Ready games: 12</li>
-      <li>Avg. playtime: 60 min</li>
-    </ul>
+    <h2>Your Collection</h2>
+    <p id="shelf-count" style="font-size: 2rem; font-weight: bold; margin: 1rem 0; color: var(--accent);">0</p>
+    <p>games on your shelf</p>
   </div>
 </section>
-<section class="carousel" aria-label="Featured games">
-  <div class="carousel_track" id="featured-carousel">
-    <figure class="carousel_slide is-active">
-      <img class="carousel_image" src="/images/game-1.jpg" alt="..." />
-      <figcaption class="carousel_caption">Caption text</figcaption>
-    </figure>
-    <figure class="carousel_slide">
-      <img class="carousel_image" src="/images/game-2.jpg" alt="..." />
-      <figcaption class="carousel_caption">Caption text</figcaption>
-    </figure>
-  </div>
 
-  <div class="carousel_controls">
-    <button class="carousel_button" data-action="prev" aria-label="Previous slide">Prev</button>
-    <button class="carousel_button" data-action="next" aria-label="Next slide">Next</button>
-  </div>
-
-  <div class="carousel_dots">
-    <button class="carousel_dot is-active" data-slide="0" aria-label="Slide 1"></button>
-    <button class="carousel_dot" data-slide="1" aria-label="Slide 2"></button>
-  </div>
-</section>
-<section id="collection" class="section">
+<section id="games" class="section">
   <div class="section-header">
-    <h2>Collection highlights</h2>
-    <p>Track shelves, expansions, and who loves each game.</p>
+    <h2>Browse All Games</h2>
+    <p>Add games to your shelf and plan your game nights</p>
   </div>
-  <div class="card-grid">
-    <article class="card">
-      <h3>Unplayed gems</h3>
-      <p>Keep a gentle reminder of the next box to open.</p>
-    </article>
-    <article class="card">
-      <h3>Group favorites</h3>
-      <p>Rank games by your regular table and mood.</p>
-    </article>
-    <article class="card">
-      <h3>Ready-to-go</h3>
-      <p>Filter by player count and time on weeknights.</p>
-    </article>
+  
+  <div id="games-container" class="card-grid">
+    <p style="grid-column: 1/-1;">Loading games...</p>
   </div>
 </section>
 
@@ -91,3 +57,88 @@
     </div>
   </div>
 </section>
+
+<script>
+  // Load and display games
+  async function loadGames() {
+    try {
+      const response = await fetch('/api/games');
+      const games = await response.json();
+      const container = document.getElementById('games-container');
+
+      container.innerHTML = games.map(game => `
+        <article class="card">
+          <img src="${game.image_url}" alt="${game.title}" style="width: 100%; height: 200px; object-fit: cover; border-radius: 4px; margin-bottom: 1rem;">
+          <h3>${game.title}</h3>
+          <p style="color: var(--muted); font-size: 0.9rem; margin: 0.5rem 0;">
+            ${game.min_players}-${game.max_players} players | ${game.playtime_minutes} min
+          </p>
+          <p>${game.description || ''}</p>
+          <p><strong>Rating:</strong> ⭐ ${game.rating || 'N/A'}</p>
+          <button class="button primary add-to-shelf-btn" data-game-id="${game.id}" data-game-title="${game.title}" style="width: 100%; margin-top: 1rem;">
+            Add to Shelf
+          </button>
+        </article>
+      `).join('');
+
+      // Add event listeners to buttons
+      document.querySelectorAll('.add-to-shelf-btn').forEach(btn => {
+        btn.addEventListener('click', async (e) => {
+          const gameId = btn.dataset.gameId;
+          const gameTitle = btn.dataset.gameTitle;
+          await addGameToShelf(gameId, btn, gameTitle);
+        });
+      });
+
+      // Load shelf count
+      loadShelfCount();
+    } catch (error) {
+      console.error('Error loading games:', error);
+      document.getElementById('games-container').innerHTML = '<p>Error loading games</p>';
+    }
+  }
+
+  async function addGameToShelf(gameId, button, gameTitle) {
+    try {
+      const response = await fetch(`/api/games/${gameId}/shelf`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      });
+
+      if (response.ok) {
+        button.textContent = '✓ Added to Shelf';
+        button.disabled = true;
+        button.style.backgroundColor = 'var(--accent)';
+        loadShelfCount();
+      } else {
+        const error = await response.json();
+        alert(error.message || 'This game is already on your shelf');
+      }
+    } catch (error) {
+      console.error('Error adding to shelf:', error);
+      alert('Failed to add game to shelf');
+    }
+  }
+
+  async function loadShelfCount() {
+    try {
+      const response = await fetch('/api/shelf');
+      const games = await response.json();
+      document.getElementById('shelf-count').textContent = games.length;
+    } catch (error) {
+      console.error('Error loading shelf count:', error);
+    }
+  }
+
+  // Load games when page loads
+  loadGames();
+</script>
+
+<style>
+  button:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+  }
+</style>

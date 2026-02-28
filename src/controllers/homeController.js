@@ -1,7 +1,5 @@
-const home = (req, res) => {
+export const home = (req, res) => {
   res.render("index", {
     title: "All My Meeples"
   });
 };
-
-module.exports = { home };
