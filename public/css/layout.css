@@ -1,0 +1,199 @@
+/* ===== HEADER & NAVIGATION ===== */
+.site-header {
+  padding: 2rem 2rem 1.25rem;
+  border-bottom: 1px solid var(--border);
+  background: #f9f6f1;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.header-inner {
+  max-width: 1000px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 2rem;
+  flex-wrap: wrap;
+}
+
+.brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.brand:hover {
+  color: var(--accent);
+}
+
+.brand-mark {
+  font-size: 1.4rem;
+}
+
+.site-nav {
+  display: flex;
+  gap: 1.25rem;
+  font-size: 0.95rem;
+  align-items: center;
+}
+
+.nav-link {
+  color: var(--muted);
+  transition: color 0.2s;
+}
+
+.nav-link:hover,
+.nav-link:focus {
+  color: var(--ink);
+}
+
+.nav-button {
+  background: none;
+  border: none;
+  padding: 0;
+  font: inherit;
+  cursor: pointer;
+  color: var(--muted);
+  transition: color 0.2s;
+}
+
+.nav-button:hover {
+  color: var(--ink);
+}
+
+.inline-form {
+  display: inline;
+}
+
+/* ===== HERO SECTION ===== */
+.hero {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+  align-items: center;
+  margin-bottom: 3rem;
+}
+
+.hero-content {
+  padding: 2rem 0;
+}
+
+.hero-content .eyebrow {
+  margin: 0;
+  text-transform: uppercase;
+  font-size: 0.85rem;
+  letter-spacing: 1px;
+  color: var(--accent);
+  font-weight: 600;
+}
+
+.hero-content h1 {
+  margin: 0.5rem 0 0;
+  font-size: 2.5rem;
+  line-height: 1.2;
+  color: var(--ink);
+}
+
+.hero-card {
+  background: var(--card);
+  border: 2px solid var(--accent);
+  border-radius: 12px;
+  padding: 2rem;
+  text-align: center;
+  box-shadow: 0 4px 12px rgba(139, 91, 52, 0.1);
+}
+
+.hero-card h2 {
+  margin: 0 0 1rem;
+  font-size: 1.3rem;
+  color: var(--ink);
+}
+
+.shelf-count {
+  font-size: 2.5rem;
+  font-weight: bold;
+  margin: 1.5rem 0;
+  color: var(--accent);
+}
+
+.hero-card p {
+  margin: 0;
+  color: var(--muted);
+}
+
+/* ===== SECTIONS ===== */
+.section {
+  margin: 3rem 0;
+}
+
+.section-header {
+  margin-bottom: 1.5rem;
+}
+
+.section-header h2 {
+  margin: 0;
+  font-size: 1.8rem;
+  color: var(--ink);
+}
+
+.section-header p {
+  margin: 0.5rem 0 0;
+  color: var(--muted);
+  font-size: 1.05rem;
+}
+
+/* ===== FOOTER ===== */
+.site-footer {
+  margin-top: auto;
+  padding: 2rem;
+  text-align: center;
+  color: var(--muted);
+  border-top: 1px solid var(--border);
+  background: #f9f6f1;
+  font-size: 0.9rem;
+}
+
+/* ===== RESPONSIVE DESIGN ===== */
+@media (max-width: 768px) {
+  .hero {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+
+  .hero-content h1 {
+    font-size: 2rem;
+  }
+
+  .hero-card {
+    padding: 1.5rem;
+  }
+
+  .site-nav {
+    gap: 1rem;
+    font-size: 0.9rem;
+  }
+
+  .section-header h2 {
+    font-size: 1.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero-content h1 {
+    font-size: 1.5rem;
+  }
+
+  .section-header h2 {
+    font-size: 1.3rem;
+  }
+
+  .site-nav {
+    gap: 0.75rem;
+    font-size: 0.85rem;
+  }
+}

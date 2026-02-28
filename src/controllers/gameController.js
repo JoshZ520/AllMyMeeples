@@ -1,8 +1,5 @@
 import { Game, Shelf } from '../models/game.js';
 
-// For now, use a demo user ID (will be replaced with actual user auth in Week 7)
-const DEMO_USER_ID = 'demo-user';
-
 export const getGames = async (req, res) => {
   try {
     const games = await Game.getAll();
@@ -28,8 +25,16 @@ export const getGameById = async (req, res) => {
 
 export const addToShelf = async (req, res) => {
   try {
+    // Check if user is logged in
+    if (!req.session.userId) {
+      return res.status(401).json({ 
+        error: 'Unauthorized',
+        message: 'You must be logged in to add games to your shelf'
+      });
+    }
+
     const { gameId } = req.params;
-    const userId = req.user?.id || DEMO_USER_ID;
+    const userId = req.session.userId;
 
     // Check if game exists
     const game = await Game.getById(gameId);
@@ -60,8 +65,13 @@ export const addToShelf = async (req, res) => {
 
 export const removeFromShelf = async (req, res) => {
   try {
+    // Check if user is logged in
+    if (!req.session.userId) {
+      return res.status(401).json({ error: 'Unauthorized' });
+    }
+
     const { gameId } = req.params;
-    const userId = req.user?.id || DEMO_USER_ID;
+    const userId = req.session.userId;
 
     const removed = await Shelf.removeGame(userId, gameId);
     
@@ -78,7 +88,12 @@ export const removeFromShelf = async (req, res) => {
 
 export const getUserShelf = async (req, res) => {
   try {
-    const userId = req.user?.id || DEMO_USER_ID;
+    // Check if user is logged in
+    if (!req.session.userId) {
+      return res.status(401).json({ error: 'Unauthorized' });
+    }
+
+    const userId = req.session.userId;
     const games = await Shelf.getUserGames(userId);
     res.json(games);
   } catch (error) {
@@ -89,8 +104,12 @@ export const getUserShelf = async (req, res) => {
 
 export const checkIfOnShelf = async (req, res) => {
   try {
+    if (!req.session.userId) {
+      return res.json({ onShelf: false });
+    }
+
     const { gameId } = req.params;
-    const userId = req.user?.id || DEMO_USER_ID;
+    const userId = req.session.userId;
     const onShelf = await Shelf.isGameOnShelf(userId, gameId);
     res.json({ onShelf });
   } catch (error) {

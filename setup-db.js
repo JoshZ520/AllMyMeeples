@@ -45,6 +45,22 @@ async function setup() {
       console.log('✓ Shelves table already exists');
     }
 
+    // Create users table
+    const hasUsers = await db.schema.hasTable('users');
+    if (!hasUsers) {
+      console.log('Creating users table...');
+      await db.schema.createTable('users', (table) => {
+        table.increments('id').primary();
+        table.string('email').unique().notNullable();
+        table.string('password').notNullable();
+        table.string('name').notNullable();
+        table.timestamp('created_at').defaultTo(db.fn.now());
+      });
+      console.log('✓ Users table created');
+    } else {
+      console.log('✓ Users table already exists');
+    }
+
     // Seed games if table is empty
     const gameCount = await db('games').count('* as count').first();
     if (gameCount.count === 0) {

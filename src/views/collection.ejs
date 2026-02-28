@@ -12,7 +12,7 @@
     <!-- Populated by JavaScript -->
   </div>
 
-  <div id="empty-shelf" class="empty-state" style="display: none; text-align: center; padding: 3rem 1rem;">
+  <div id="empty-shelf" class="empty-state" style="display: none;">
     <p>No games on your shelf yet.</p>
     <p><a href="/" class="button primary">Browse all games</a></p>
   </div>
@@ -23,6 +23,13 @@
   async function loadShelf() {
     try {
       const response = await fetch('/api/shelf');
+      
+      // Redirect to login if not authenticated
+      if (response.status === 401) {
+        window.location.href = '/auth/login';
+        return;
+      }
+      
       const games = await response.json();
       const container = document.getElementById('shelf-games');
       const emptyState = document.getElementById('empty-shelf');
@@ -35,14 +42,14 @@
 
       container.innerHTML = games.map(game => `
         <article class="card">
-          <img src="${game.image_url}" alt="${game.title}" style="width: 100%; height: 200px; object-fit: cover; border-radius: 4px; margin-bottom: 1rem;">
+          <img src="${game.image_url}" alt="${game.title}">
           <h3>${game.title}</h3>
-          <p style="color: var(--muted); font-size: 0.9rem; margin: 0.5rem 0;">
+          <p class="card-meta">
             ${game.min_players}-${game.max_players} players | ${game.playtime_minutes} min
           </p>
           <p>${game.description || 'A great game to play.'}</p>
           <p><strong>Rating:</strong> ⭐ ${game.rating || 'N/A'}</p>
-          <button class="button primary" onclick="removeFromShelf(${game.id})" style="width: 100%; margin-top: 1rem;">
+          <button class="button primary full-width" onclick="removeFromShelf(${game.id})">
             Remove from Shelf
           </button>
         </article>
@@ -57,6 +64,11 @@
       const response = await fetch(`/api/games/${gameId}/shelf`, {
         method: 'DELETE'
       });
+
+      if (response.status === 401) {
+        window.location.href = '/auth/login';
+        return;
+      }
 
       if (response.ok) {
         showStatus('Game removed from shelf!', 'success');
@@ -84,30 +96,3 @@
   // Load shelf when page loads
   loadShelf();
 </script>
-
-<style>
-  .collection-status {
-    padding: 1rem;
-    border-radius: 4px;
-    margin-bottom: 1.5rem;
-    font-weight: 500;
-  }
-
-  .collection-status.success {
-    background: #d4edda;
-    color: #155724;
-    border: 1px solid #c3e6cb;
-  }
-
-  .collection-status.error {
-    background: #f8d7da;
-    color: #721c24;
-    border: 1px solid #f5c6cb;
-  }
-
-  .empty-state {
-    background: var(--card);
-    border: 2px dashed var(--border);
-    border-radius: 8px;
-  }
-</style>

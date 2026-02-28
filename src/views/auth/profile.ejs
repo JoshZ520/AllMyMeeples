@@ -1,0 +1,23 @@
+<div class="profile-page">
+  <div class="profile-card">
+    <div class="profile-header">
+      <div class="profile-avatar">
+        <%= user.name.charAt(0).toUpperCase() %>
+      </div>
+      <h1 class="profile-name"><%= user.name %></h1>
+      <p class="profile-email"><%= user.email %></p>
+    </div>
+
+    <div class="profile-stats">
+      <div class="stat-item">
+        <span class="stat-label">Member since</span>
+        <span class="stat-value"><%= new Date(user.created_at).toLocaleDateString() %></span>
+      </div>
+    </div>
+
+    <div class="profile-actions">
+      <a href="/collection" class="button primary">View My Collection</a>
+      <a href="/" class="button secondary">Browse Games</a>
+    </div>
+  </div>
+</div>
