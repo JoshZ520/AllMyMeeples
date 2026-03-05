@@ -26,6 +26,12 @@ body {
   line-height: 1.6;
 }
 
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
 a {
   color: inherit;
   text-decoration: none;
@@ -39,7 +45,7 @@ a {
 }
 
 .site-main {
-  padding: 2.5rem 2rem 3rem;
+  padding: clamp(1.5rem, 3vw, 2.5rem) clamp(1rem, 3vw, 2rem) clamp(2rem, 4vw, 3rem);
   max-width: 1000px;
   margin: 0 auto;
   width: 100%;
@@ -58,26 +64,8 @@ button:disabled {
 
 /* ===== RESPONSIVE DESIGN ===== */
 @media (max-width: 768px) {
-  .site-header {
-    padding: 1rem;
-  }
-
-  .site-main {
-    padding: 1.5rem 1rem 2rem;
-  }
-
   .button {
     width: 100%;
-  }
-}
-
-@media (max-width: 480px) {
-  :root {
-    font-size: 15px;
-  }
-
-  .brand {
-    font-size: 1rem;
   }
 }
 
