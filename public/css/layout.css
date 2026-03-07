@@ -88,7 +88,7 @@
   text-transform: uppercase;
   font-size: 0.85rem;
   letter-spacing: 1px;
-  color: var(--accent);
+  color: var(--accent-2);
   font-weight: 600;
 }
 
@@ -101,11 +101,11 @@
 
 .hero-card {
   background: var(--card);
-  border: 2px solid var(--accent);
+  border: 2px solid var(--accent-2);
   border-radius: 12px;
   padding: clamp(1.25rem, 3vw, 2rem);
   text-align: center;
-  box-shadow: 0 4px 12px rgba(139, 91, 52, 0.1);
+  box-shadow: 0 4px 12px rgba(43, 76, 126, 0.12);
 }
 
 .hero-card h2 {

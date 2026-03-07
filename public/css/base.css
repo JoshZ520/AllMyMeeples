@@ -1,12 +1,15 @@
 /* ===== THEME VARIABLES ===== */
 :root {
   color-scheme: light;
-  --ink: #2b241b;
-  --muted: #6e6154;
-  --paper: #f7f4ee;
+  --ink: #2b2b2b;
+  --muted: #5c5c5c;
+  --paper: #fff6e9;
   --card: #ffffff;
-  --accent: #8b5b34;
-  --border: #ded6c8;
+  --accent: #e94f37;
+  --accent-2: #3f88c5;
+  --accent-3: #f6c90e;
+  --accent-4: #4caf50;
+  --border: #e5dacb;
 }
 
 /* ===== GLOBAL RESET & STYLES ===== */

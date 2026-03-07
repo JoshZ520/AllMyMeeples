@@ -71,7 +71,7 @@
 }
 
 .button.primary:hover {
-  background: #7a4d2d;
+  background: var(--accent-2);
 }
 
 .button.secondary {
@@ -283,8 +283,8 @@
 
 /* ===== NOTES & TIMELINE ===== */
 .note {
-  background: #fef3cd;
-  border-left: 4px solid #ffc107;
+  background: #fff3d6;
+  border-left: 4px solid var(--accent-3);
   padding: 1rem 1.25rem;
   border-radius: 4px;
   margin: 1.5rem 0;
@@ -292,7 +292,7 @@
 
 .note p {
   margin: 0;
-  color: #856404;
+  color: #7a5a1a;
   font-size: 0.95rem;
 }
 
@@ -312,7 +312,7 @@
 
 .tag {
   display: inline-block;
-  background: var(--accent);
+  background: var(--accent-3);
   color: white;
   padding: 0.4rem 0.8rem;
   border-radius: 4px;
