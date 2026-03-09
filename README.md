@@ -12,7 +12,7 @@ AllMyMeeples is a web application for managing your board game collection. Built
 - **Protected Routes** - Authentication required for shelf management
 - **Responsive Design** - Clean, accessible interface
 - **ESM Modules** - Modern JavaScript imports/exports
-- **Database Abstraction** - Knex.js for PostgreSQL
+- **Database Abstraction** - pg for PostgreSQL
 
 ## Quick Start
 
@@ -118,7 +118,6 @@ Attempting to access without login redirects to `/auth/login`.
 AllMyMeeples/
 ├── server.js              # Main server entry point
 ├── schema.sql             # Database schema
-├── knexfile.js            # Knex database configuration
 ├── src/
 │   ├── app.js            # Express app & middleware setup
 │   ├── controllers/
@@ -177,7 +176,6 @@ AllMyMeeples/
 - **Express.js** - Web application framework
 - **EJS** - Server-side templating engine
 - **express-ejs-layouts** - Layout support for EJS
-- **Knex.js** - SQL query builder
 - **PostgreSQL** - Production database
 - **bcryptjs** - Password hashing & verification
 - **express-session** - Session management

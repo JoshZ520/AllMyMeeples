@@ -2,22 +2,15 @@
   <div class="hero-content">
     <p class="eyebrow">Tabletop collection tracker</p>
     <h1><%= title %></h1>
+    <p>Track your collection, plan your wishlist, and get game night ready.</p>
+    <div class="hero-actions">
+      <a href="/browse" class="button primary">Browse games</a>
+      <a href="/auth/register" class="button secondary">Create account</a>
+    </div>
   </div>
   <div class="hero-card">
-    <h2>Your Collection</h2>
-    <p id="shelf-count" class="shelf-count">0</p>
-    <p>games on your shelf</p>
-  </div>
-</section>
-
-<section id="games" class="section">
-  <div class="section-header">
-    <h2>Browse All Games</h2>
-    <p>Add games to your shelf and plan your game nights</p>
-  </div>
-  
-  <div id="games-container" class="card-grid">
-    <p class="card-grid-loading">Loading games...</p>
+    <h2>Ready to build your shelf?</h2>
+    <p>Pick a few favorites and start tracking plays.</p>
   </div>
 </section>
 
@@ -53,94 +46,3 @@
     </div>
   </div>
 </section>
-
-<script>
-  // Load and display games
-  async function loadGames() {
-    try {
-      const response = await fetch('/api/games');
-      const games = await response.json();
-      const container = document.getElementById('games-container');
-
-      container.innerHTML = games.map(game => `
-        <article class="card">
-          <img src="${game.image_url}" alt="${game.title}">
-          <h3>${game.title}</h3>
-          <p class="card-meta">
-            ${game.min_players}-${game.max_players} players | ${game.playtime_minutes} min
-          </p>
-          <p>${game.description || ''}</p>
-          <p><strong>Rating:</strong> ⭐ ${game.rating || 'N/A'}</p>
-          <button class="button primary add-to-shelf-btn full-width" data-game-id="${game.id}" data-game-title="${game.title}">
-            Add to Shelf
-          </button>
-        </article>
-      `).join('');
-
-      // Add event listeners to buttons
-      document.querySelectorAll('.add-to-shelf-btn').forEach(btn => {
-        btn.addEventListener('click', async (e) => {
-          const gameId = btn.dataset.gameId;
-          const gameTitle = btn.dataset.gameTitle;
-          await addGameToShelf(gameId, btn, gameTitle);
-        });
-      });
-
-      // Load shelf count
-      loadShelfCount();
-    } catch (error) {
-      console.error('Error loading games:', error);
-      document.getElementById('games-container').innerHTML = '<p>Error loading games</p>';
-    }
-  }
-
-  async function addGameToShelf(gameId, button, gameTitle) {
-    try {
-      const response = await fetch(`/api/games/${gameId}/shelf`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        }
-      });
-
-      if (response.status === 401) {
-        // User not logged in - redirect to login
-        window.location.href = '/auth/login';
-        return;
-      }
-
-      if (response.ok) {
-        button.textContent = '✓ Added to Shelf';
-        button.disabled = true;
-        button.style.backgroundColor = 'var(--accent)';
-        loadShelfCount();
-      } else {
-        const error = await response.json();
-        alert(error.message || 'This game is already on your shelf');
-      }
-    } catch (error) {
-      console.error('Error adding to shelf:', error);
-      alert('Failed to add game to shelf');
-    }
-  }
-
-  async function loadShelfCount() {
-    try {
-      const response = await fetch('/api/shelf');
-      
-      // If not logged in, shelf count is 0
-      if (response.status === 401) {
-        document.getElementById('shelf-count').textContent = 0;
-        return;
-      }
-      
-      const games = await response.json();
-      document.getElementById('shelf-count').textContent = games.length;
-    } catch (error) {
-      console.error('Error loading shelf count:', error);
-    }
-  }
-
-  // Load games when page loads
-  loadGames();
-</script>

@@ -99,6 +99,13 @@
   color: var(--ink);
 }
 
+.hero-actions {
+  display: flex;
+  gap: 1rem;
+  margin-top: 1.5rem;
+  flex-wrap: wrap;
+}
+
 .hero-card {
   background: var(--card);
   border: 2px solid var(--accent-2);

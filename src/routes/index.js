@@ -14,6 +14,11 @@ const router = express.Router();
 // Home page
 router.get('/', home);
 
+// Browse page
+router.get('/browse', (req, res) => {
+  res.render('browse', { title: 'Browse Games' });
+});
+
 // Game API endpoints
 router.get('/api/games', getGames);
 router.get('/api/games/:id', getGameById);

@@ -1,7 +1,9 @@
-import knex from 'knex';
-import config from '../../knexfile.js';
+import 'dotenv/config';
+import { Pool } from 'pg';
 
-const environment = process.env.NODE_ENV || 'development';
-const db = knex(config[environment]);
+const pool = new Pool({
+	connectionString: process.env.DATABASE_URL,
+	ssl: { rejectUnauthorized: false }
+});
 
-export default db;
+export default pool;

@@ -12,7 +12,7 @@ async function runSqlFile(filePath) {
   if (!sql.trim()) {
     return;
   }
-  await db.raw(sql);
+  await db.query(sql);
 }
 
 async function setup() {
@@ -21,8 +21,8 @@ async function setup() {
 
     await runSqlFile(schemaPath);
 
-    const result = await db('games').count('* as count').first();
-    const count = Number(result?.count || 0);
+    const result = await db.query('SELECT COUNT(*) AS count FROM games');
+    const count = Number(result.rows?.[0]?.count || 0);
 
     if (count === 0) {
       await runSqlFile(seedPath);
