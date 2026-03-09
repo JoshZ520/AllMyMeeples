@@ -5,6 +5,7 @@ let allGames = [];
 const searchInput = document.getElementById('search-games');
 const playersSelect = document.getElementById('filter-players');
 const playtimeSelect = document.getElementById('filter-playtime');
+const sortSelect = document.getElementById('sort-by');
 
 async function loadOwnedGames() {
   try {
@@ -99,6 +100,23 @@ function applyFilters() {
     return textMatch && playersMatch && playtimeMatch;
   });
 
+  const sortValue = sortSelect.value;
+
+  filtered.sort((a, b) => {
+    switch (sortValue) {
+        case 'title-desc':
+            return b.title.localeCompare(a.title);
+        case 'rating-desc':
+            return (b.rating || 0) - (a.rating || 0);
+        case 'playtime-asc':
+            return (a.playtime_minutes || 0) - (b.playtime_minutes || 0);
+        case 'playtime-desc':
+            return (b.playtime_minutes || 0) - (a.playtime_minutes || 0);
+        default:
+            return a.title.localeCompare(b.title);
+    }
+  });
+
   renderGames(filtered);
 }
 
@@ -174,6 +192,7 @@ async function loadGames() {
     searchInput.addEventListener('input', applyFilters);
     playersSelect.addEventListener('change', applyFilters);
     playtimeSelect.addEventListener('change', applyFilters);
+    sortSelect.addEventListener('change', applyFilters);
   } catch (error) {
     console.error('Error loading games:', error);
     document.getElementById('games-container').innerHTML = '<p>Error loading games</p>';
