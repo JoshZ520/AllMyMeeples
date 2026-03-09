@@ -7,10 +7,46 @@
       <a href="/browse" class="button primary">Browse games</a>
       <a href="/auth/register" class="button secondary">Create account</a>
     </div>
-  </div>
-  <div class="hero-card">
-    <h2>Ready to build your shelf?</h2>
-    <p>Pick a few favorites and start tracking plays.</p>
+    <div class="hero-carousel">
+      <div class="carousel" data-carousel>
+        <div class="carousel-track">
+          <div class="carousel-slide is-active">
+            <div class="carousel-panel panel-one">
+              <p class="eyebrow">Tabletop collection tracker</p>
+              <h2>Build your shelf</h2>
+              <p>Curate favorites and keep your collection tidy.</p>
+            </div>
+          </div>
+          <div class="carousel-slide">
+            <div class="carousel-panel panel-two">
+              <p class="eyebrow">Plan ahead</p>
+              <h2>Save your wishlist</h2>
+              <p>Keep the next big box on deck for game night.</p>
+            </div>
+          </div>
+          <div class="carousel-slide">
+            <div class="carousel-panel panel-three">
+              <p class="eyebrow">Game night ready</p>
+              <h2>Pick the vibe</h2>
+              <p>Match the table to your crew and time.</p>
+            </div>
+          </div>
+        </div>
+
+        <button class="carousel-control prev" type="button" aria-label="Previous slide" data-carousel-prev>
+          ‹
+        </button>
+        <button class="carousel-control next" type="button" aria-label="Next slide" data-carousel-next>
+          ›
+        </button>
+
+        <div class="carousel-dots" role="tablist">
+          <button type="button" class="carousel-dot is-active" aria-label="Slide 1" data-carousel-dot="0"></button>
+          <button type="button" class="carousel-dot" aria-label="Slide 2" data-carousel-dot="1"></button>
+          <button type="button" class="carousel-dot" aria-label="Slide 3" data-carousel-dot="2"></button>
+        </div>
+      </div>
+    </div>
   </div>
 </section>
 
@@ -93,3 +129,5 @@
   </div>
   <% } %>
 </section>
+
+<script src="/js/home.js"></script>

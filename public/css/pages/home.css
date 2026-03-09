@@ -1,17 +1,43 @@
-/* ===== HERO SECTION ===== */
-.hero {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 2rem;
-  align-items: center;
+/* ===== HERO CAROUSEL ===== */
+.hero-carousel {
   margin-bottom: 3rem;
 }
 
-.hero-content {
-  padding: 2rem 0;
+.carousel {
+  position: relative;
+  border-radius: 16px;
+  overflow: hidden;
+  min-height: 360px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  box-shadow: 0 12px 28px rgba(43, 76, 126, 0.12);
 }
 
-.hero-content .eyebrow {
+.carousel-track {
+  display: flex;
+  transition: transform 0.6s ease;
+  height: 100%;
+}
+
+.carousel-slide {
+  min-width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.carousel-panel {
+  width: 100%;
+  padding: clamp(2rem, 5vw, 3.5rem);
+  min-height: 360px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 0.75rem;
+  color: var(--ink);
+}
+
+.carousel-panel .eyebrow {
   margin: 0;
   text-transform: uppercase;
   font-size: 0.85rem;
@@ -20,45 +46,122 @@
   font-weight: 600;
 }
 
-.hero-content h1 {
-  margin: 0.5rem 0 0;
-  font-size: clamp(1.8rem, 4vw, 2.5rem);
+.carousel-panel h1,
+.carousel-panel h2 {
+  margin: 0.4rem 0 0;
+  font-size: clamp(1.9rem, 4vw, 2.6rem);
   line-height: 1.2;
-  color: var(--ink);
 }
 
-.hero-actions {
-  display: flex;
-  gap: 1rem;
-  margin-top: 1.5rem;
-  flex-wrap: wrap;
-}
-
-.hero-card {
-  background: var(--card);
-  border: 2px solid var(--accent-2);
-  border-radius: 12px;
-  padding: clamp(1.25rem, 3vw, 2rem);
-  text-align: center;
-  box-shadow: 0 4px 12px rgba(43, 76, 126, 0.12);
-}
-
-.hero-card h2 {
-  margin: 0 0 1rem;
-  font-size: 1.3rem;
-  color: var(--ink);
-}
-
-.shelf-count {
-  font-size: clamp(2rem, 4vw, 2.5rem);
-  font-weight: bold;
-  margin: 1.5rem 0;
-  color: var(--accent);
-}
-
-.hero-card p {
+.carousel-panel p {
   margin: 0;
   color: var(--muted);
+  max-width: 520px;
+}
+
+.panel-one {
+  background: linear-gradient(135deg, #fff1de 0%, #fbe2c0 100%);
+}
+
+.panel-two {
+  background: linear-gradient(135deg, #e8f2ff 0%, #cfe5ff 100%);
+}
+
+.panel-three {
+  background: linear-gradient(135deg, #fef6da 0%, #f8e8a9 100%);
+}
+
+.carousel-control {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  border: none;
+  background: rgba(255, 255, 255, 0.8);
+  color: var(--ink);
+  font-size: 2rem;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+}
+
+.carousel-control.prev {
+  left: 1rem;
+}
+
+.carousel-control.next {
+  right: 1rem;
+}
+
+.carousel-dots {
+  position: absolute;
+  bottom: 1rem;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 0.5rem;
+}
+
+.carousel-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  border: none;
+  background: rgba(0, 0, 0, 0.2);
+}
+
+.carousel-dot.is-active {
+  background: var(--accent);
+}
+
+.card-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1.5rem;
+  margin-top: 1.5rem;
+}
+
+.flip-card {
+  background: transparent;
+  perspective: 1000px;
+}
+
+.flip-card-inner {
+  position: relative;
+  width: 100%;
+  min-height: 220px;
+  transition: transform 0.6s;
+  transform-style: preserve-3d;
+}
+
+.flip-card:hover .flip-card-inner {
+  transform: rotateY(180deg);
+}
+
+.flip-card-front,
+.flip-card-back {
+  position: absolute;
+  inset: 0;
+  backface-visibility: hidden;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 1.5rem;
+  background: var(--card);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 0.75rem;
+}
+
+.flip-card-front h3 {
+  margin: 0;
+}
+
+.flip-card-back {
+  transform: rotateY(180deg);
+  background: #fff3d6;
 }
 
 /* ===== NOTES & TIMELINE ===== */
@@ -115,12 +218,9 @@
 
 /* ===== RESPONSIVE DESIGN ===== */
 @media (max-width: 900px) {
-  .hero {
-    grid-template-columns: 1fr;
-    gap: 1.5rem;
-  }
-
-  .hero-content {
-    padding: 1rem 0;
+  .carousel-control {
+    width: 38px;
+    height: 38px;
+    font-size: 1.6rem;
   }
 }

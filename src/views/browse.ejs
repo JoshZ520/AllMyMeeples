@@ -1,4 +1,24 @@
 <section class="section">
+  <div class="browse-hero">
+    <div class="browse-hero-content">
+      <p class="eyebrow">Tabletop collection tracker</p>
+      <h1>Browse games</h1>
+      <p>Track your collection, plan your wishlist, and get game night ready.</p>
+      <div class="browse-hero-actions">
+        <% if (user) { %>
+          <a href="/collection" class="button primary">View my collection</a>
+        <% } else { %>
+          <a href="/auth/register" class="button primary">Create account</a>
+          <a href="/auth/login" class="button secondary">Log in</a>
+        <% } %>
+      </div>
+    </div>
+    <div class="browse-hero-card">
+      <h2>Ready to build your shelf?</h2>
+      <p>Pick a few favorites and start tracking plays.</p>
+    </div>
+  </div>
+
   <div class="section-header">
     <h2>Browse All Games</h2>
     <p>Pick multiple games and add them to your shelf in one go.</p>
