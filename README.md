@@ -12,7 +12,7 @@ AllMyMeeples is a web application for managing your board game collection. Built
 - **Protected Routes** - Authentication required for shelf management
 - **Responsive Design** - Clean, accessible interface
 - **ESM Modules** - Modern JavaScript imports/exports
-- **Database Abstraction** - Knex.js for SQLite (dev) and PostgreSQL (production)
+- **Database Abstraction** - Knex.js for PostgreSQL
 
 ## Quick Start
 
@@ -50,15 +50,16 @@ pnpm dev
    ```
 
 3. Initialize the database:
-   ```bash
-   node setup-db.js
-   ```
-   This creates the SQLite database and seeds it with 10 board games.
+   - Run the SQL scripts using the provided setup script:
+     ```bash
+     pnpm run db:init
+     ```
 
 4. (Optional) Create a `.env` file for environment variables:
    ```bash
    PORT=3000
    NODE_ENV=development
+   DATABASE_URL=postgresql://USER:PASSWORD@HOST:5432/DATABASE
    ```
 
 ## Usage
@@ -77,14 +78,10 @@ pnpm start
 
 The application will be available at `http://localhost:3000` (or your configured PORT).
 
-### Database Migrations (Advanced)
-To run database migrations manually:
+### Database Setup (SQL Scripts)
+This project uses raw SQL scripts for schema and seed data:
 ```bash
-# Run all pending migrations
-pnpm run migrate
-
-# Seed database with game data
-pnpm run seed
+pnpm run db:init
 ```
 
 ## Authentication
@@ -120,7 +117,7 @@ Attempting to access without login redirects to `/auth/login`.
 ```
 AllMyMeeples/
 ├── server.js              # Main server entry point
-├── setup-db.js            # Database initialization script
+├── schema.sql             # Database schema
 ├── knexfile.js            # Knex database configuration
 ├── src/
 │   ├── app.js            # Express app & middleware setup
@@ -136,8 +133,6 @@ AllMyMeeples/
 │   │   └── auth.js       # Authentication routes
 │   ├── db/
 │   │   ├── db.js         # Knex database connection
-│   │   ├── migrations/   # Database schema files
-│   │   └── seeds/        # Initial game data
 │   └── views/
 │       ├── index.ejs     # Homepage with game browser
 │       ├── collection.ejs # User's game shelf
@@ -150,7 +145,10 @@ AllMyMeeples/
 │           ├── header.ejs
 │           └── footer.ejs
 └── public/
-    ├── css/styles.css
+   ├── css/
+   │   ├── base.css
+   │   ├── layout.css
+   │   └── components.css
     ├── js/
     └── images/
 ```
@@ -179,8 +177,7 @@ AllMyMeeples/
 - **Express.js** - Web application framework
 - **EJS** - Server-side templating engine
 - **express-ejs-layouts** - Layout support for EJS
-- **Knex.js** - SQL query builder & migrations
-- **SQLite3** - Local development database
+- **Knex.js** - SQL query builder
 - **PostgreSQL** - Production database
 - **bcryptjs** - Password hashing & verification
 - **express-session** - Session management
@@ -216,10 +213,7 @@ PORT=8080 pnpm dev        # Linux/Mac
 ```
 
 **Database errors**
-```bash
-# Reinitialize the database
-node setup-db.js
-```
+- Re-run `pnpm run db:init`
 
 **Dependencies not installing**
 ```bash
@@ -230,7 +224,7 @@ pnpm install
 ```
 
 **Login/Register not working**
-- Make sure the database is initialized: `node setup-db.js`
+- Make sure the database is initialized (run `pnpm run db:init`)
 - Check that port 3000 is not in use
 - Clear browser cookies for localhost:3000
 
