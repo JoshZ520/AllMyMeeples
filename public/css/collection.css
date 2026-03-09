@@ -1,0 +1,32 @@
+/* ===== COLLECTION PAGE ===== */
+.collection-status {
+  padding: 1rem;
+  border-radius: 4px;
+  margin-bottom: 1.5rem;
+  font-weight: 500;
+}
+
+.collection-status.success {
+  background: #d4edda;
+  color: #155724;
+  border: 1px solid #c3e6cb;
+}
+
+.collection-status.error {
+  background: #f8d7da;
+  color: #721c24;
+  border: 1px solid #f5c6cb;
+}
+
+.empty-state {
+  background: var(--card);
+  border: 2px dashed var(--border);
+  border-radius: 8px;
+  padding: 3rem 1rem;
+  text-align: center;
+}
+
+.empty-state p {
+  margin: 0.5rem 0;
+  color: var(--muted);
+}
