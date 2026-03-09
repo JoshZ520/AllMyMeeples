@@ -11,14 +11,22 @@ export const registerPage = (req, res) => {
 };
 
 // Show profile page (only if logged in)
-export const profilePage = (req, res) => {
+export const profilePage = async (req, res) => {
   if (!req.session.userId) {
     return res.redirect('/auth/login');
   }
-  
-  res.render('auth/profile', { 
+
+  const user = await User.getById(req.session.userId);
+  if (!user) {
+    req.session.destroy(() => {
+      res.redirect('/auth/login');
+    });
+    return;
+  }
+
+  res.render('auth/profile', {
     title: 'My Profile',
-    user: req.session.user
+    user
   });
 };
 

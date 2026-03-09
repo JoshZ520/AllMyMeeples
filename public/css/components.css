@@ -60,6 +60,45 @@
   margin-bottom: 1.5rem;
 }
 
+.browse-filters {
+  display: grid;
+  grid-template-columns: minmax(220px, 2fr) repeat(2, minmax(180px, 1fr));
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.filter-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.filter-group label {
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--muted);
+  font-weight: 600;
+}
+
+.filter-group input,
+.filter-group select {
+  padding: 0.7rem 0.85rem;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: var(--card);
+  font-family: inherit;
+  font-size: 0.95rem;
+  color: var(--ink);
+}
+
+.filter-group input:focus,
+.filter-group select:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(139, 91, 52, 0.1);
+}
+
 .summary-card {
   background: var(--card);
   border: 1px solid var(--border);

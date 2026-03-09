@@ -14,6 +14,46 @@
     </div>
   </div>
 
+  <div class="browse-filters">
+    <div class="filter-group">
+      <label for="search-games">Search</label>
+      <input type="search" id="search-games" name="search" placeholder="Search by title or description" />
+    </div>
+    <div class="filter-group">
+      <label for="filter-players">Players</label>
+      <select id="filter-players" name="players">
+        <option value="">Any</option>
+        <option value="1">1+</option>
+        <option value="2">2+</option>
+        <option value="3">3+</option>
+        <option value="4">4+</option>
+        <option value="5">5+</option>
+        <option value="6">6+</option>
+      </select>
+    </div>
+    <div class="filter-group">
+      <label for="filter-playtime">Playtime</label>
+      <select id="filter-playtime" name="playtime">
+        <option value="">Any</option>
+        <option value="30">Up to 30 min</option>
+        <option value="45">Up to 45 min</option>
+        <option value="60">Up to 60 min</option>
+        <option value="90">Up to 90 min</option>
+        <option value="120">Up to 120 min</option>
+      </select>
+    </div>
+    <div class="filter-group">
+  <label for="sort-by">Sort</label>
+  <select id="sort-by" name="sort">
+    <option value="title-asc">Title (A-Z)</option>
+    <option value="title-desc">Title (Z-A)</option>
+    <option value="rating-desc">Rating (high → low)</option>
+    <option value="playtime-asc">Playtime (short → long)</option>
+    <option value="playtime-desc">Playtime (long → short)</option>
+  </select>
+</div>
+  </div>
+
   <div id="bulk-actions" class="bulk-actions" style="display: none;">
     <span><strong id="selected-count">0</strong> selected</span>
     <button id="bulk-add" class="button primary">Add selected to shelf</button>
@@ -24,147 +64,4 @@
   </div>
 </section>
 
-<script>
-  const selection = new Set();
-  let ownedIds = new Set();
-
-  async function loadOwnedGames() {
-    try {
-      const response = await fetch('/api/shelf');
-      if (response.status === 401) {
-        document.getElementById('collection-count').textContent = '--';
-        document.getElementById('login-hint').style.display = 'block';
-        return;
-      }
-
-      const games = await response.json();
-      ownedIds = new Set(games.map(game => String(game.id)));
-      document.getElementById('collection-count').textContent = games.length;
-    } catch (error) {
-      console.error('Error loading shelf:', error);
-    }
-  }
-
-  function updateBulkActions() {
-    const bulkActions = document.getElementById('bulk-actions');
-    const selectedCount = document.getElementById('selected-count');
-
-    selectedCount.textContent = selection.size;
-    bulkActions.style.display = selection.size >= 2 ? 'flex' : 'none';
-  }
-
-  function toggleSelection(card, button) {
-    const gameId = card.dataset.gameId;
-
-    if (selection.has(gameId)) {
-      selection.delete(gameId);
-      card.classList.remove('selected');
-      button.textContent = 'Select';
-    } else {
-      selection.add(gameId);
-      card.classList.add('selected');
-      button.textContent = 'Selected';
-    }
-
-    updateBulkActions();
-  }
-
-  async function addGameToShelf(gameId, button) {
-    try {
-      const response = await fetch(`/api/games/${gameId}/shelf`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' }
-      });
-
-      if (response.status === 401) {
-        window.location.href = '/auth/login';
-        return;
-      }
-
-      if (response.ok) {
-        button.textContent = '✓ Added';
-        button.disabled = true;
-        button.classList.add('button-disabled');
-        ownedIds.add(String(gameId));
-        await loadOwnedGames();
-      } else {
-        const error = await response.json();
-        alert(error.message || 'This game is already on your shelf');
-      }
-    } catch (error) {
-      console.error('Error adding to shelf:', error);
-      alert('Failed to add game to shelf');
-    }
-  }
-
-  async function addSelectedToShelf() {
-    const ids = Array.from(selection);
-    for (const gameId of ids) {
-      await addGameToShelf(gameId, document.querySelector(`[data-game-id="${gameId}"] .add-single`));
-    }
-    selection.clear();
-    document.querySelectorAll('.browse-card.selected').forEach(card => {
-      card.classList.remove('selected');
-      const selectBtn = card.querySelector('.select-btn');
-      if (selectBtn && !selectBtn.disabled) {
-        selectBtn.textContent = 'Select';
-      }
-    });
-    updateBulkActions();
-  }
-
-  async function loadGames() {
-    try {
-      await loadOwnedGames();
-
-      const response = await fetch('/api/games');
-      const games = await response.json();
-      const container = document.getElementById('games-container');
-
-      container.innerHTML = games.map(game => {
-        const isOwned = ownedIds.has(String(game.id));
-        return `
-          <article class="card browse-card ${isOwned ? 'owned' : ''}" data-game-id="${game.id}">
-            <div class="card-badges">
-              ${isOwned ? '<span class="badge owned">Owned</span>' : ''}
-            </div>
-            <img src="${game.image_url}" alt="${game.title}">
-            <h3>${game.title}</h3>
-            <p class="card-meta">
-              ${game.min_players}-${game.max_players} players | ${game.playtime_minutes} min
-            </p>
-            <p>${game.description || ''}</p>
-            <p><strong>Rating:</strong> ⭐ ${game.rating || 'N/A'}</p>
-            <div class="card-actions">
-              <button class="button primary add-single" ${isOwned ? 'disabled' : ''}>
-                ${isOwned ? 'On shelf' : 'Add to shelf'}
-              </button>
-              <button class="button secondary select-btn" ${isOwned ? 'disabled' : ''}>Select</button>
-            </div>
-          </article>
-        `;
-      }).join('');
-
-      document.querySelectorAll('.browse-card').forEach(card => {
-        const addButton = card.querySelector('.add-single');
-        const selectButton = card.querySelector('.select-btn');
-        const gameId = card.dataset.gameId;
-
-        if (!addButton.disabled) {
-          addButton.addEventListener('click', () => addGameToShelf(gameId, addButton));
-        }
-
-        if (!selectButton.disabled) {
-          selectButton.addEventListener('click', () => toggleSelection(card, selectButton));
-        }
-      });
-
-      document.getElementById('bulk-add').addEventListener('click', addSelectedToShelf);
-    } catch (error) {
-      console.error('Error loading games:', error);
-      document.getElementById('games-container').innerHTML = '<p>Error loading games</p>';
-    }
-  }
-
-  loadGames();
-</script>
+<script src="/js/browse.js"></script>
