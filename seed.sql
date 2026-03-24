@@ -13,7 +13,7 @@ VALUES
 
 INSERT INTO users (email, password, name, role)
 VALUES
-  ('admin@allmymeeples.com', '$2b$10$X04RA79j3M3dqxYTgjCAgeBq.EIrddBImViC0S2XpNr2SCPqiF8nK', 'Admin User', 'admin'),
-  ('moderator@allmymeeples.com', '$2b$10$X04RA79j3M3dqxYTgjCAgeBq.EIrddBImViC0S2XpNr2SCPqiF8nK', 'Moderator User', 'moderator'),
-  ('user@allmymeeples.com', '$2b$10$X04RA79j3M3dqxYTgjCAgeBq.EIrddBImViC0S2XpNr2SCPqiF8nK', 'Standard User', 'user')
+  ('admin@allmymeeples.com', '$2b$10$Nl9oM/X2Mq0huXtxMyRDX.SvtsNzgRtr980N9wiu4X62wYhsf1RPm', 'Admin User', 'admin'),
+  ('moderator@allmymeeples.com', '$2b$10$Nl9oM/X2Mq0huXtxMyRDX.SvtsNzgRtr980N9wiu4X62wYhsf1RPm', 'Moderator User', 'moderator'),
+  ('user@allmymeeples.com', '$2b$10$Nl9oM/X2Mq0huXtxMyRDX.SvtsNzgRtr980N9wiu4X62wYhsf1RPm', 'Standard User', 'user')
 ON CONFLICT (email) DO NOTHING;
