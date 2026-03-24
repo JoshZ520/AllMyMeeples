@@ -46,7 +46,7 @@ export const register = async (req, res) => {
 
     // Store user in session (log them in automatically)
     req.session.userId = user.id;
-    req.session.user = { id: user.id, email: user.email, name: user.name };
+    req.session.user = { id: user.id, email: user.email, name: user.name, role: user.role };
 
     // Redirect to home page
     res.redirect('/');
@@ -75,7 +75,7 @@ export const login = async (req, res) => {
 
     // Store user in session
     req.session.userId = user.id;
-    req.session.user = { id: user.id, email: user.email, name: user.name };
+    req.session.user = { id: user.id, email: user.email, name: user.name, role: user.role };
 
     // Redirect to home page
     res.redirect('/');

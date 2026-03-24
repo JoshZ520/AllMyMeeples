@@ -1,0 +1,33 @@
+<section class="section">
+  <div class="section-header">
+    <h2>Admin Dashboard</h2>
+    <p>Manage users and roles.</p>
+  </div>
+
+  <% if (typeof error !== 'undefined') { %>
+    <p class="form-error"><%= error %></p>
+  <% } %>
+
+  <div class="card-grid">
+    <% users.forEach(user => { %>
+      <article class="card">
+        <h3><%= user.name %></h3>
+        <p><strong>Email:</strong> <%= user.email %></p>
+        <p><strong>Role:</strong> <%= user.role %></p>
+        <p><strong>Member since:</strong> <%= new Date(user.created_at).toLocaleDateString() %></p>
+
+        <form method="post" action="/admin/users/<%= user.id %>/role" class="auth-form">
+          <div class="form-group">
+            <label for="role-<%= user.id %>">Change role</label>
+            <select id="role-<%= user.id %>" name="role">
+              <option value="user" <%= user.role === 'user' ? 'selected' : '' %>>User</option>
+              <option value="moderator" <%= user.role === 'moderator' ? 'selected' : '' %>>Moderator</option>
+              <option value="admin" <%= user.role === 'admin' ? 'selected' : '' %>>Admin</option>
+            </select>
+          </div>
+          <button type="submit" class="button primary full-width">Update Role</button>
+        </form>
+      </article>
+    <% }); %>
+  </div>
+</section>

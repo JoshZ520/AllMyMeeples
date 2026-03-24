@@ -8,6 +8,8 @@ import {
   getUserShelf, 
   checkIfOnShelf 
 } from '../controllers/gameController.js';
+import { adminDashboard, updateUserRole } from '../controllers/adminController.js';
+import { requireAuth, requireRole } from '../middleware/auth.js';
 
 const router = express.Router();
 
@@ -31,5 +33,9 @@ router.get('/api/games/:gameId/check', checkIfOnShelf);
 router.get('/collection', (req, res) => {
   res.render('collection', { title: 'My Collection' });
 });
+
+// Admin dashboard
+router.get('/admin', requireAuth, requireRole('admin'), adminDashboard);
+router.post('/admin/users/:id/role', requireAuth, requireRole('admin'), updateUserRole);
 
 export default router;

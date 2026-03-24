@@ -10,3 +10,10 @@ VALUES
   ('Splendor', 'Build a gem trading empire. Collect gems, purchase developments, and attract nobles for victory points.', '/images/game-2.jpg', 2, 4, 30, 4.1),
   ('Dominion', 'The original deck-building game. Draft cards and build powerful decks to dominate your opponents.', '/images/game-1.jpg', 2, 4, 30, 4.0),
   ('Azul', 'Tile-placement game about decorating the Royal Palace. Easy to learn, deep strategy.', '/images/game-2.jpg', 2, 4, 30, 4.4);
+
+INSERT INTO users (email, password, name, role)
+VALUES
+  ('admin@allmymeeples.com', '$2b$10$X04RA79j3M3dqxYTgjCAgeBq.EIrddBImViC0S2XpNr2SCPqiF8nK', 'Admin User', 'admin'),
+  ('moderator@allmymeeples.com', '$2b$10$X04RA79j3M3dqxYTgjCAgeBq.EIrddBImViC0S2XpNr2SCPqiF8nK', 'Moderator User', 'moderator'),
+  ('user@allmymeeples.com', '$2b$10$X04RA79j3M3dqxYTgjCAgeBq.EIrddBImViC0S2XpNr2SCPqiF8nK', 'Standard User', 'user')
+ON CONFLICT (email) DO NOTHING;

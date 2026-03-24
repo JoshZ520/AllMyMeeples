@@ -12,6 +12,9 @@
       <a href="/#events" class="nav-link">Events</a>
       
       <% if (user) { %>
+        <% if (user.role === 'admin') { %>
+          <a href="/admin" class="nav-link">Admin</a>
+        <% } %>
         <a href="/auth/profile" class="nav-link">Profile</a>
         <form action="/auth/logout" method="POST" class="inline-form">
           <button type="submit" class="nav-link nav-button">Logout</button>

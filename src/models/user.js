@@ -1,7 +1,7 @@
 import db from '../db/db.js';
 import bcrypt from 'bcryptjs';
 
-const USER_FIELDS = ['email', 'name', 'password'];
+const USER_FIELDS = ['email', 'name', 'password', 'role'];
 
 function buildUpdateClause(data, fields) {
   const updates = [];
@@ -41,12 +41,23 @@ export const User = {
 
   async create(userData) {
     const hashedPassword = await this.hashPassword(userData.password);
+    const role = userData.role || 'user';
 
     const result = await db.query(
-      'INSERT INTO users (email, name, password) VALUES ($1, $2, $3) RETURNING id',
-      [userData.email, userData.name, hashedPassword]
+      'INSERT INTO users (email, name, password, role) VALUES ($1, $2, $3, $4) RETURNING id',
+      [userData.email, userData.name, hashedPassword, role]
     );
     const id = result.rows[0]?.id;
+    return this.getById(id);
+  },
+
+  async listAll() {
+    const result = await db.query('SELECT id, name, email, role, created_at FROM users ORDER BY created_at DESC');
+    return result.rows;
+  },
+
+  async updateRole(id, role) {
+    await db.query('UPDATE users SET role = $1 WHERE id = $2', [role, id]);
     return this.getById(id);
   },
 
