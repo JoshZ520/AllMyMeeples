@@ -2,7 +2,7 @@ import { User } from '../models/user.js';
 
 // Show login page
 export const loginPage = (req, res) => {
-  res.render('auth/login', { title: 'Login' });
+  res.render('auth/login', { title: 'Login', email: '' });
 };
 
 // Show register page
@@ -64,13 +64,21 @@ export const login = async (req, res) => {
     // Find user by email
     const user = await User.getByEmail(email);
     if (!user) {
-      return res.status(401).json({ error: 'Invalid email or password' });
+      return res.status(401).render('auth/login', {
+        title: 'Login',
+        error: 'Invalid email or password',
+        email
+      });
     }
 
     // Check if password matches
     const isMatch = await User.comparePassword(password, user.password);
     if (!isMatch) {
-      return res.status(401).json({ error: 'Invalid email or password' });
+      return res.status(401).render('auth/login', {
+        title: 'Login',
+        error: 'Invalid email or password',
+        email
+      });
     }
 
     // Store user in session
@@ -81,7 +89,11 @@ export const login = async (req, res) => {
     res.redirect('/');
   } catch (error) {
     console.error('Login error:', error);
-    res.status(500).json({ error: 'Failed to login' });
+    res.status(500).render('auth/login', {
+      title: 'Login',
+      error: 'Login failed. Please try again.',
+      email
+    });
   }
 };
 
