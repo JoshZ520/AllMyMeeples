@@ -53,6 +53,60 @@
   font-size: 0.95rem;
 }
 
+/* ===== FLIP CARDS ===== */
+.card-flip {
+  padding: 0;
+  perspective: 1000px;
+  cursor: pointer;
+}
+
+.card-flip .card-inner {
+  position: relative;
+  width: 100%;
+  min-height: 460px;
+  transform-style: preserve-3d;
+  transition: transform 0.6s ease;
+}
+
+.card-flip .card-face {
+  position: absolute;
+  inset: 0;
+  padding: 1.25rem;
+  backface-visibility: hidden;
+  display: flex;
+  flex-direction: column;
+  border-radius: 8px;
+  background: var(--card);
+}
+
+.card-flip .card-front .card-actions {
+  margin-top: auto;
+}
+
+.card-flip .card-back {
+  transform: rotateY(180deg);
+}
+
+.card-flip .card-back .button {
+  margin-top: auto;
+}
+
+.card-flip:hover .card-inner,
+.card-flip:focus-within .card-inner {
+  transform: rotateY(180deg);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .card-flip .card-inner {
+    transition: none;
+  }
+
+  .card-flip:hover .card-inner,
+  .card-flip:focus-within .card-inner {
+    transform: none;
+  }
+}
+
 /* ===== BUTTONS ===== */
 .button {
   padding: 0.75rem 1.5rem;

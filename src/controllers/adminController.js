@@ -1,12 +1,15 @@
 import { User } from '../models/user.js';
+import { Review } from '../models/review.js';
 
 const VALID_ROLES = ['admin', 'moderator', 'user'];
 
 export const adminDashboard = async (req, res) => {
   const users = await User.listAll();
+  const pendingReviews = await Review.listPending();
   res.render('admin/index', {
     title: 'Admin Dashboard',
-    users
+    users,
+    pendingReviews
   });
 };
 

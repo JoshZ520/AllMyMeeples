@@ -46,22 +46,33 @@ function renderGames(games) {
   container.innerHTML = games.map(game => {
     const isOwned = ownedIds.has(String(game.id));
     return `
-      <article class="card browse-card ${isOwned ? 'owned' : ''}" data-game-id="${game.id}">
-        <div class="card-badges">
-          ${isOwned ? '<span class="badge owned">Owned</span>' : ''}
-        </div>
-        <img src="${game.image_url}" alt="${game.title}">
-        <h3>${game.title}</h3>
-        <p class="card-meta">
-          ${game.min_players}-${game.max_players} players | ${game.playtime_minutes} min
-        </p>
-        <p>${game.description || ''}</p>
-        <p><strong>Rating:</strong> ⭐ ${game.rating || 'N/A'}</p>
-        <div class="card-actions">
-          <button class="button primary add-single" ${isOwned ? 'disabled' : ''}>
-            ${isOwned ? 'On shelf' : 'Add to shelf'}
-          </button>
-          <button class="button secondary select-btn" ${isOwned ? 'disabled' : ''}>Select</button>
+      <article class="card browse-card card-flip ${isOwned ? 'owned' : ''}" data-game-id="${game.id}" data-detail-url="/games/${game.id}">
+        <div class="card-inner">
+          <div class="card-face card-front">
+            <div class="card-badges">
+              ${isOwned ? '<span class="badge owned">Owned</span>' : ''}
+            </div>
+            <img src="${game.image_url}" alt="${game.title}">
+            <h3><a href="/games/${game.id}">${game.title}</a></h3>
+            <p class="card-meta">
+              ${game.min_players}-${game.max_players} players | ${game.playtime_minutes} min
+            </p>
+            <p><strong>Rating:</strong> ⭐ ${game.rating || 'N/A'}</p>
+            <div class="card-actions">
+              <button class="button primary add-single" ${isOwned ? 'disabled' : ''}>
+                ${isOwned ? 'On shelf' : 'Add to shelf'}
+              </button>
+              <button class="button secondary select-btn" ${isOwned ? 'disabled' : ''}>Select</button>
+            </div>
+          </div>
+          <div class="card-face card-back">
+            <p class="card-meta">Description</p>
+            <p>${game.description || 'No description available.'}</p>
+            <p class="card-meta">
+              ${game.min_players}-${game.max_players} players | ${game.playtime_minutes} min
+            </p>
+            <a class="button secondary full-width" href="/games/${game.id}">View details</a>
+          </div>
         </div>
       </article>
     `;
@@ -71,6 +82,16 @@ function renderGames(games) {
     const addButton = card.querySelector('.add-single');
     const selectButton = card.querySelector('.select-btn');
     const gameId = card.dataset.gameId;
+
+    card.addEventListener('click', (event) => {
+      if (event.target.closest('button, a, input, textarea, select, label')) {
+        return;
+      }
+      const detailUrl = card.dataset.detailUrl;
+      if (detailUrl) {
+        window.location.href = detailUrl;
+      }
+    });
 
     if (!addButton.disabled) {
       addButton.addEventListener('click', () => addGameToShelf(gameId, addButton));

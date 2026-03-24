@@ -31,3 +31,35 @@
     <% }); %>
   </div>
 </section>
+
+<section class="section">
+  <div class="section-header">
+    <h2>Pending Reviews</h2>
+    <p>Approve or reject newly submitted reviews.</p>
+  </div>
+
+  <% if (pendingReviews.length === 0) { %>
+    <p>No pending reviews.</p>
+  <% } else { %>
+    <div class="card-grid">
+      <% pendingReviews.forEach(review => { %>
+        <article class="card">
+          <h3><%= review.game_title %></h3>
+          <p><strong>Reviewer:</strong> <%= review.name %> (<%= review.email %>)</p>
+          <p><strong>Rating:</strong> ⭐ <%= review.rating %></p>
+          <p><%= review.content %></p>
+          <div class="review-actions">
+            <form method="post" action="/admin/reviews/<%= review.id %>/status">
+              <input type="hidden" name="status" value="approved">
+              <button type="submit" class="button primary">Approve</button>
+            </form>
+            <form method="post" action="/admin/reviews/<%= review.id %>/status">
+              <input type="hidden" name="status" value="rejected">
+              <button type="submit" class="button secondary">Reject</button>
+            </form>
+          </div>
+        </article>
+      <% }); %>
+    </div>
+  <% } %>
+</section>

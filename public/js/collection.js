@@ -18,19 +18,42 @@ async function loadShelf() {
     }
 
     container.innerHTML = games.map(game => `
-      <article class="card">
-        <img src="${game.image_url}" alt="${game.title}">
-        <h3>${game.title}</h3>
-        <p class="card-meta">
-          ${game.min_players}-${game.max_players} players | ${game.playtime_minutes} min
-        </p>
-        <p>${game.description || 'A great game to play.'}</p>
-        <p><strong>Rating:</strong> ⭐ ${game.rating || 'N/A'}</p>
-        <button class="button primary full-width" data-game-id="${game.id}">
-          Remove from Shelf
-        </button>
+      <article class="card collection-card card-flip" data-detail-url="/games/${game.id}">
+        <div class="card-inner">
+          <div class="card-face card-front">
+            <img src="${game.image_url}" alt="${game.title}">
+            <h3>${game.title}</h3>
+            <p class="card-meta">
+              ${game.min_players}-${game.max_players} players | ${game.playtime_minutes} min
+            </p>
+            <p><strong>Rating:</strong> ⭐ ${game.rating || 'N/A'}</p>
+            <button class="button primary full-width" data-game-id="${game.id}">
+              Remove from Shelf
+            </button>
+          </div>
+          <div class="card-face card-back">
+            <p class="card-meta">Description</p>
+            <p>${game.description || 'A great game to play.'}</p>
+            <p class="card-meta">
+              ${game.min_players}-${game.max_players} players | ${game.playtime_minutes} min
+            </p>
+            <a class="button secondary full-width" href="/games/${game.id}">View details</a>
+          </div>
+        </div>
       </article>
     `).join('');
+
+    container.querySelectorAll('.collection-card').forEach(card => {
+      card.addEventListener('click', (event) => {
+        if (event.target.closest('button, a, input, textarea, select, label')) {
+          return;
+        }
+        const detailUrl = card.dataset.detailUrl;
+        if (detailUrl) {
+          window.location.href = detailUrl;
+        }
+      });
+    });
 
     container.querySelectorAll('button[data-game-id]').forEach(button => {
       button.addEventListener('click', () => {

@@ -1,0 +1,58 @@
+/* ===== GAME DETAIL PAGE ===== */
+.game-detail {
+  display: grid;
+  grid-template-columns: minmax(200px, 320px) 1fr;
+  gap: 2rem;
+  align-items: start;
+}
+
+.game-detail-media img {
+  border-radius: 12px;
+  border: 1px solid var(--border);
+}
+
+.game-detail-info h1 {
+  margin: 0.5rem 0 0.5rem;
+}
+
+.review-list {
+  display: grid;
+  gap: 1rem;
+}
+
+.review-card {
+  border: 1px solid var(--border);
+}
+
+.review-status {
+  color: var(--muted);
+  font-size: 0.85rem;
+}
+
+.review-actions {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+textarea {
+  padding: 0.75rem;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  font-family: inherit;
+  font-size: 1rem;
+  color: var(--ink);
+  background: var(--card);
+}
+
+textarea:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(139, 91, 52, 0.1);
+}
+
+@media (max-width: 900px) {
+  .game-detail {
+    grid-template-columns: 1fr;
+  }
+}

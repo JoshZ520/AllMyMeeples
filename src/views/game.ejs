@@ -1,0 +1,87 @@
+<section class="section">
+  <div class="game-detail">
+    <div class="game-detail-media">
+      <img src="<%= game.image_url %>" alt="<%= game.title %>">
+    </div>
+    <div class="game-detail-info">
+      <p class="eyebrow">Game details</p>
+      <h1><%= game.title %></h1>
+      <p class="card-meta"><%= game.min_players %>-<%= game.max_players %> players | <%= game.playtime_minutes %> min</p>
+      <p><%= game.description %></p>
+      <p><strong>Rating:</strong> ⭐ <%= game.rating || 'N/A' %></p>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="section-header">
+    <h2>Reviews</h2>
+    <p>What players are saying about this game.</p>
+  </div>
+
+  <% if (reviews.length === 0) { %>
+    <p>No approved reviews yet.</p>
+  <% } else { %>
+    <div class="review-list">
+      <% reviews.forEach(review => { %>
+        <article class="card review-card">
+          <h3><%= review.name %></h3>
+          <p class="card-meta">Rating: ⭐ <%= review.rating %></p>
+          <p><%= review.content %></p>
+          <p class="review-status">Posted <%= new Date(review.created_at).toLocaleDateString() %></p>
+        </article>
+      <% }); %>
+    </div>
+  <% } %>
+</section>
+
+<section class="section">
+  <div class="section-header">
+    <h2>Your Review</h2>
+    <p>Submit or update your review for this game.</p>
+  </div>
+
+  <% if (!user) { %>
+    <p><a href="/auth/login">Log in</a> to leave a review.</p>
+  <% } else { %>
+    <% if (typeof error !== 'undefined') { %>
+      <p class="form-error"><%= error %></p>
+    <% } %>
+
+    <% if (userReviews.length === 0) { %>
+      <form method="post" action="/games/<%= game.id %>/reviews" class="auth-form">
+        <div class="form-group">
+          <label for="rating">Rating (1-5)</label>
+          <input type="number" id="rating" name="rating" min="1" max="5" required />
+        </div>
+        <div class="form-group">
+          <label for="content">Review</label>
+          <textarea id="content" name="content" rows="4" required></textarea>
+        </div>
+        <button type="submit" class="button primary">Submit Review</button>
+      </form>
+    <% } else { %>
+      <% userReviews.forEach(review => { %>
+        <article class="card review-card">
+          <p class="card-meta">Status: <strong><%= review.status %></strong></p>
+          <form method="post" action="/reviews/<%= review.id %>/edit" class="auth-form">
+            <input type="hidden" name="gameId" value="<%= game.id %>">
+            <div class="form-group">
+              <label for="rating-<%= review.id %>">Rating (1-5)</label>
+              <input type="number" id="rating-<%= review.id %>" name="rating" min="1" max="5" value="<%= review.rating %>" required />
+            </div>
+            <div class="form-group">
+              <label for="content-<%= review.id %>">Review</label>
+              <textarea id="content-<%= review.id %>" name="content" rows="4" required><%= review.content %></textarea>
+            </div>
+            <button type="submit" class="button primary">Update Review</button>
+          </form>
+          <form method="post" action="/reviews/<%= review.id %>/delete" class="review-actions">
+            <input type="hidden" name="gameId" value="<%= game.id %>">
+            <button type="submit" class="button secondary">Delete</button>
+          </form>
+        </article>
+      <% }); %>
+    <% } %>
+  <% } %>
+</section>
