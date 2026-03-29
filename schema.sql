@@ -21,6 +21,8 @@ CREATE TABLE IF NOT EXISTS games (
   max_players INTEGER,
   playtime_minutes INTEGER,
   rating DECIMAL(3, 2),
+  categories TEXT[],
+  mechanics TEXT[],
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
