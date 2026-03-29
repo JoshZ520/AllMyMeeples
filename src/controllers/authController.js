@@ -32,69 +32,70 @@ export const profilePage = async (req, res) => {
 
 // Handle user registration
 export const register = async (req, res) => {
-  try {
-    const { email, password, name } = req.body;
+  const { email, password, name } = req.body;
 
-    // Check if user already exists
-    const existingUser = await User.getByEmail(email);
-    if (existingUser) {
-      return res.status(400).json({ error: 'Email already registered' });
-    }
-
-    // Create new user (password gets hashed in User model)
-    const user = await User.create({ email, password, name });
-
-    // Store user in session (log them in automatically)
-    req.session.userId = user.id;
-    req.session.user = { id: user.id, email: user.email, name: user.name, role: user.role };
-
-    // Redirect to home page
-    res.redirect('/');
-  } catch (error) {
-    console.error('Registration error:', error);
-    res.status(500).json({ error: 'Failed to register' });
+  // Validation
+  if (!email || !password || !name) {
+    return res.status(400).json({ error: 'All fields are required' });
   }
+
+  // Check if user already exists
+  const existingUser = await User.getByEmail(email);
+  if (existingUser) {
+    return res.status(400).json({ error: 'Email already registered' });
+  }
+
+  // Create new user (password gets hashed in User model)
+  // Any unexpected errors (DB connection, etc.) will propagate to global error handler
+  const user = await User.create({ email, password, name });
+
+  // Store user in session (log them in automatically)
+  req.session.userId = user.id;
+  req.session.user = { id: user.id, email: user.email, name: user.name, role: user.role };
+
+  // Redirect to home page
+  res.redirect('/');
 };
 
 // Handle user login
 export const login = async (req, res) => {
-  try {
-    const { email, password } = req.body;
+  const { email, password } = req.body;
 
-    // Find user by email
-    const user = await User.getByEmail(email);
-    if (!user) {
-      return res.status(401).render('auth/login', {
-        title: 'Login',
-        error: 'Invalid email or password',
-        email
-      });
-    }
-
-    // Check if password matches
-    const isMatch = await User.comparePassword(password, user.password);
-    if (!isMatch) {
-      return res.status(401).render('auth/login', {
-        title: 'Login',
-        error: 'Invalid email or password',
-        email
-      });
-    }
-
-    // Store user in session
-    req.session.userId = user.id;
-    req.session.user = { id: user.id, email: user.email, name: user.name, role: user.role };
-
-    // Redirect to home page
-    res.redirect('/');
-  } catch (error) {
-    console.error('Login error:', error);
-    res.status(500).render('auth/login', {
+  // Validation
+  if (!email || !password) {
+    return res.status(400).render('auth/login', {
       title: 'Login',
-      error: 'Login failed. Please try again.',
+      error: 'Email and password are required',
       email
     });
   }
+
+  // Find user by email
+  const user = await User.getByEmail(email);
+  if (!user) {
+    return res.status(401).render('auth/login', {
+      title: 'Login',
+      error: 'Invalid email or password',
+      email
+    });
+  }
+
+  // Check if password matches
+  const isMatch = await User.comparePassword(password, user.password);
+  if (!isMatch) {
+    return res.status(401).render('auth/login', {
+      title: 'Login',
+      error: 'Invalid email or password',
+      email
+    });
+  }
+
+  // Store user in session
+  req.session.userId = user.id;
+  req.session.user = { id: user.id, email: user.email, name: user.name, role: user.role };
+
+  // Redirect to home page
+  res.redirect('/');
 };
 
 // Handle logout

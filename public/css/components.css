@@ -96,6 +96,27 @@
   transform: rotateY(180deg);
 }
 
+@media (hover: none) and (pointer: coarse) {
+  .card-flip {
+    cursor: default;
+  }
+
+  .card-flip .card-inner {
+    transform: none;
+    min-height: 0;
+  }
+
+  .card-flip .card-face {
+    position: static;
+    transform: none;
+    backface-visibility: visible;
+  }
+
+  .card-flip .card-back {
+    margin-top: 1rem;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .card-flip .card-inner {
     transition: none;

@@ -38,8 +38,36 @@ app.use((req, res, next) => {
 app.use("/", indexRoutes);
 app.use("/auth", authRoutes);
 
+// 404 handler - must come after all routes
 app.use((req, res) => {
   res.status(404).render("index", { title: "Not Found", message: "Page not found." });
+});
+
+// Global error handler - must come last, after 404
+app.use((err, req, res, next) => {
+  // Log error for debugging (but don't expose details to users)
+  console.error('Error occurred:', err);
+
+  // Set status code
+  const statusCode = err.status || err.statusCode || 500;
+  
+  // Don't expose internal error details in production
+  const isDevelopment = process.env.NODE_ENV !== 'production';
+  const errorMessage = isDevelopment ? err.message : 'Something went wrong. Please try again.';
+
+  // Check if it's an API request (JSON expected)
+  if (req.path.startsWith('/api/')) {
+    return res.status(statusCode).json({
+      error: errorMessage,
+      ...(isDevelopment && { stack: err.stack })
+    });
+  }
+
+  // Render error page for regular requests
+  res.status(statusCode).render("error", {
+    title: "Error",
+    message: errorMessage
+  });
 });
 
 export default app;

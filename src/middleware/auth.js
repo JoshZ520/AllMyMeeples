@@ -19,3 +19,11 @@ export const requireRole = (role) => (req, res, next) => {
 
   next();
 };
+
+/**
+ * Wrapper for async route handlers to ensure errors are passed to error middleware
+ * Usage: router.get('/path', asyncHandler(async (req, res) => { ... }))
+ */
+export const asyncHandler = (fn) => (req, res, next) => {
+  Promise.resolve(fn(req, res, next)).catch(next);
+};

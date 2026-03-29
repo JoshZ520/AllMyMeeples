@@ -1,0 +1,67 @@
+<section class="section error-page">
+  <div class="error-container">
+    <div class="error-icon">⚠️</div>
+    <h1>Oops! Something went wrong</h1>
+    <p class="error-message"><%= message %></p>
+    <div class="error-actions">
+      <a href="/" class="button primary">Go to Homepage</a>
+      <a href="javascript:history.back()" class="button secondary">Go Back</a>
+    </div>
+  </div>
+</section>
+
+<style>
+.error-page {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 60vh;
+}
+
+.error-container {
+  text-align: center;
+  max-width: 600px;
+  padding: 2rem;
+}
+
+.error-icon {
+  font-size: 4rem;
+  margin-bottom: 1rem;
+  animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.1); }
+}
+
+.error-page h1 {
+  margin: 0 0 1rem;
+  font-size: clamp(1.5rem, 4vw, 2rem);
+  color: var(--ink);
+}
+
+.error-message {
+  font-size: 1.1rem;
+  color: var(--muted);
+  margin-bottom: 2rem;
+  line-height: 1.6;
+}
+
+.error-actions {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+@media (max-width: 600px) {
+  .error-actions {
+    flex-direction: column;
+  }
+  
+  .error-actions .button {
+    width: 100%;
+  }
+}
+</style>

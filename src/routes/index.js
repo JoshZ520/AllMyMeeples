@@ -9,7 +9,7 @@ import {
   checkIfOnShelf 
 } from '../controllers/gameController.js';
 import { adminDashboard, updateUserRole } from '../controllers/adminController.js';
-import { requireAuth, requireRole } from '../middleware/auth.js';
+import { requireAuth, requireRole, asyncHandler } from '../middleware/auth.js';
 import { submitReview, updateReview, deleteReview, updateReviewStatus } from '../controllers/reviewController.js';
 import { Review } from '../models/review.js';
 import { Game } from '../models/game.js';
@@ -19,13 +19,18 @@ const router = express.Router();
 // Home page
 router.get('/', home);
 
+// Test error handling (remove in production)
+router.get('/test-error', asyncHandler(async (req, res) => {
+  throw new Error('This is a test error to verify global error handler is working');
+}));
+
 // Browse page
 router.get('/browse', (req, res) => {
   res.render('browse', { title: 'Browse Games' });
 });
 
 // Game detail page
-router.get('/games/:id', async (req, res) => {
+router.get('/games/:id', asyncHandler(async (req, res) => {
   const game = await Game.getById(req.params.id);
   if (!game) {
     return res.status(404).render('index', { title: 'Not Found', message: 'Game not found.' });
@@ -43,7 +48,7 @@ router.get('/games/:id', async (req, res) => {
     userReviews,
     user: req.session.user
   });
-});
+}));
 
 // Game API endpoints
 router.get('/api/games', getGames);
@@ -59,13 +64,13 @@ router.get('/collection', (req, res) => {
 });
 
 // Admin dashboard
-router.get('/admin', requireAuth, requireRole('admin'), adminDashboard);
-router.post('/admin/users/:id/role', requireAuth, requireRole('admin'), updateUserRole);
-router.post('/admin/reviews/:reviewId/status', requireAuth, requireRole('admin'), updateReviewStatus);
+router.get('/admin', requireAuth, requireRole('admin'), asyncHandler(adminDashboard));
+router.post('/admin/users/:id/role', requireAuth, requireRole('admin'), asyncHandler(updateUserRole));
+router.post('/admin/reviews/:reviewId/status', requireAuth, requireRole('admin'), asyncHandler(updateReviewStatus));
 
 // Review routes
-router.post('/games/:id/reviews', requireAuth, submitReview);
-router.post('/reviews/:reviewId/edit', requireAuth, updateReview);
-router.post('/reviews/:reviewId/delete', requireAuth, deleteReview);
+router.post('/games/:id/reviews', requireAuth, asyncHandler(submitReview));
+router.post('/reviews/:reviewId/edit', requireAuth, asyncHandler(updateReview));
+router.post('/reviews/:reviewId/delete', requireAuth, asyncHandler(deleteReview));
 
 export default router;
