@@ -1,13 +1,20 @@
 <section class="section">
   <div class="section-header">
-    <h2>Admin Dashboard</h2>
-    <p>Manage users and roles.</p>
+    <h2><%= user.role === 'moderator' ? 'Moderator' : 'Admin' %> Dashboard</h2>
+    <p>Manage <%= user.role === 'admin' ? 'users, games, and reviews' : 'reviews' %>.</p>
   </div>
+
+  <% if (user.role === 'admin') { %>
+  <div class="admin-nav">
+    <a href="/admin/games" class="button primary">Manage Games</a>
+  </div>
+  <% } %>
 
   <% if (typeof error !== 'undefined') { %>
     <p class="form-error"><%= error %></p>
   <% } %>
 
+  <% if (user.role === 'admin') { %>
   <div class="card-grid">
     <% users.forEach(user => { %>
       <article class="card">
@@ -30,6 +37,7 @@
       </article>
     <% }); %>
   </div>
+  <% } %>
 </section>
 
 <section class="section">
@@ -63,3 +71,26 @@
     </div>
   <% } %>
 </section>
+
+<style>
+.admin-nav {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.review-actions {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 1rem;
+}
+
+.review-actions form {
+  margin: 0;
+}
+
+.review-actions button {
+  padding: 0.5rem 1rem;
+  font-size: 0.9rem;
+}
+</style>

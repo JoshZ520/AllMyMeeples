@@ -10,7 +10,10 @@ export const requireRole = (role) => (req, res, next) => {
     return res.redirect('/auth/login');
   }
 
-  if (req.session.user.role !== role) {
+  // Support both single role string or array of roles
+  const allowedRoles = Array.isArray(role) ? role : [role];
+  
+  if (!allowedRoles.includes(req.session.user.role)) {
     return res.status(403).render('index', {
       title: 'Access Denied',
       message: 'You do not have permission to view this page.'

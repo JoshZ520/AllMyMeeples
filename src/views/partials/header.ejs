@@ -8,11 +8,9 @@
       <a href="/" class="nav-link">Home</a>
       <a href="/browse" class="nav-link">Browse</a>
       <a href="/collection" class="nav-link">Collection</a>
-      <a href="/#wishlist" class="nav-link">Wishlist</a>
-      <a href="/#events" class="nav-link">Events</a>
       
       <% if (user) { %>
-        <% if (user.role === 'admin') { %>
+        <% if (user.role === 'admin' || user.role === 'moderator') { %>
           <a href="/admin" class="nav-link">Admin</a>
         <% } %>
         <a href="/auth/profile" class="nav-link">Profile</a>

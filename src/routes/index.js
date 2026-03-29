@@ -72,10 +72,10 @@ router.get('/collection', (req, res) => {
   res.render('collection', { title: 'My Collection' });
 });
 
-// Admin dashboard
-router.get('/admin', requireAuth, requireRole('admin'), asyncHandler(adminDashboard));
+// Admin dashboard (accessible to admin and moderator)
+router.get('/admin', requireAuth, requireRole(['admin', 'moderator']), asyncHandler(adminDashboard));
 router.post('/admin/users/:id/role', requireAuth, requireRole('admin'), asyncHandler(updateUserRole));
-router.post('/admin/reviews/:reviewId/status', requireAuth, requireRole('admin'), asyncHandler(updateReviewStatus));
+router.post('/admin/reviews/:reviewId/status', requireAuth, requireRole(['admin', 'moderator']), asyncHandler(updateReviewStatus));
 
 // Admin game management
 router.get('/admin/games', requireAuth, requireRole('admin'), asyncHandler(showGames));

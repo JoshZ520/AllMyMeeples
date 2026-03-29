@@ -1,246 +1,112 @@
 # AllMyMeeples
 
-## Description
-AllMyMeeples is a web application for managing your board game collection. Built with Node.js, Express, and EJS using the Model-View-Controller (MVC) architecture. Users can browse games, add them to their personal shelf, and manage their collections with user authentication.
+A comprehensive board game collection manager built with Node.js, Express, PostgreSQL, and EJS using MVC architecture.
+
+## AI Development Disclosure
+This project was developed with significant assistance from **GitHub Copilot** (Claude Sonnet 4.5). AI-generated code has been reviewed, tested, and customized to meet project requirements. I being the sole developer actively directed implementation decisions, debugged issues, and gained understanding of all functionality.
 
 ## Features
-- **User Authentication** - Register, login/logout with bcrypt password hashing
-- **Session Management** - 24-hour persistent login with express-session
-- **Game Database** - Browse and search board games with detailed information
-- **Personal Shelf** - Add/remove games to your collection with duplicate prevention
-- **User Profiles** - View your account info and join date
-- **Protected Routes** - Authentication required for shelf management
-- **Responsive Design** - Clean, accessible interface
-- **ESM Modules** - Modern JavaScript imports/exports
-- **Database Abstraction** - pg for PostgreSQL
+- User authentication with bcrypt password hashing
+- Role-based access control (User, Moderator, Admin)
+- Browse 50+ board games with pagination and filters
+- Personal collection management
+- Review system with moderation workflow
+- Admin panel for game/user/review management
+- PostgreSQL database with parameterized queries
+- Responsive design with professional styling
 
 ## Quick Start
 
 ```bash
-# Install dependencies
-pnpm install
-
-# Start the development server
-pnpm dev
-
-# Open your browser
-# Navigate to http://localhost:3000
+npm install
+npm run db:init
+npm run dev
 ```
+Visit `http://localhost:3000`
 
-## Installation
+**Test Accounts:** Password is `P@$$w0rd!` for all
+- Admin: `admin@allmymeeples.com`
+- Moderator: `moderator@allmymeeples.com`
+- User: `user@allmymeeples.com`
 
-### Prerequisites
-- **Node.js** (v18 or higher) - [Download here](https://nodejs.org/)
-- **pnpm** package manager - [Installation guide](https://pnpm.io/installation)
-  ```bash
-  # Install pnpm globally if you don't have it
-  npm install -g pnpm
-  ```
+## Setup
 
-### Setup
-1. Clone the repository:
+**Prerequisites:** Node.js 18+, PostgreSQL 14+
+
+1. Clone and install:
    ```bash
    git clone <repository-url>
    cd AllMyMeeples
+   npm install
    ```
 
-2. Install dependencies:
-   ```bash
-   pnpm install
-   ```
-
-3. Initialize the database:
-   - Run the SQL scripts using the provided setup script:
-     ```bash
-     pnpm run db:init
-     ```
-
-4. (Optional) Create a `.env` file for environment variables:
-   ```bash
+2. Create `.env`:
+   ```env
    PORT=3000
    NODE_ENV=development
-   DATABASE_URL=postgresql://USER:PASSWORD@HOST:5432/DATABASE
+   SESSION_SECRET=your-random-secret
+   DATABASE_URL=postgresql://user:pass@localhost:5432/allmymeeples
    ```
 
-## Usage
+3. Initialize database:
+   ```bash
+   npm run db:init
+   ```
 
-### Development Mode
-Start the development server:
-```bash
-pnpm dev
-```
+## User Roles
 
-### Production Mode
-Start the server in production:
-```bash
-pnpm start
-```
-
-The application will be available at `http://localhost:3000` (or your configured PORT).
-
-### Database Setup (SQL Scripts)
-This project uses raw SQL scripts for schema and seed data:
-```bash
-pnpm run db:init
-```
-
-## Authentication
-
-### User Registration
-1. Click **Register** in the navigation
-2. Enter name, email, and password
-3. Click **Register** - you'll be logged in automatically
-4. Passwords are securely hashed with bcrypt
-
-### User Login
-1. Click **Login** in the navigation
-2. Enter your email and password
-3. Click **Login** - session starts (24-hour cookie)
-4. Session persists across page refreshes
-
-### Logout
-1. Click **Logout** button in header
-2. Session is destroyed
-3. You'll be redirected to homepage
-
-### Protected Routes
-These routes require authentication:
-- `POST /api/games/:id/shelf` - Add game to shelf
-- `DELETE /api/games/:id/shelf` - Remove game from shelf
-- `GET /api/shelf` - View your shelf
-- `/collection` - Your game collection page
-- `/auth/profile` - Your profile page
-
-Attempting to access without login redirects to `/auth/login`.
+- **User:** Browse games, manage collection, submit reviews
+- **Moderator:** User permissions + approve/reject reviews
+- **Admin:** Moderator permissions + manage games and user roles
 
 ## Project Structure
 ```
 AllMyMeeples/
-├── server.js              # Main server entry point
-├── schema.sql             # Database schema
+├── server.js                 # Entry point
+├── setup-db.js              # DB initialization
+├── schema.sql, seed.sql     # Database files
 ├── src/
-│   ├── app.js            # Express app & middleware setup
-│   ├── controllers/
-│   │   ├── gameController.js    # Game & shelf endpoints
-│   │   ├── authController.js    # Login/register/logout logic
-│   │   └── homeController.js    # Homepage render
-│   ├── models/
-│   │   ├── game.js       # Game & Shelf database operations
-│   │   └── user.js       # User model with password hashing
-│   ├── routes/
-│   │   ├── index.js      # Game API routes
-│   │   └── auth.js       # Authentication routes
-│   ├── db/
-│   │   ├── db.js         # Knex database connection
-│   └── views/
-│       ├── index.ejs     # Homepage with game browser
-│       ├── collection.ejs # User's game shelf
-│       ├── auth/
-│       │   ├── login.ejs
-│       │   ├── register.ejs
-│       │   └── profile.ejs
-│       ├── layout.ejs
-│       └── partials/
-│           ├── header.ejs
-│           └── footer.ejs
-└── public/
-   ├── css/
-   │   ├── base.css
-   │   ├── layout.css
-   │   └── components.css
-    ├── js/
-    └── images/
+│   ├── app.js               # Express setup
+│   ├── controllers/         # Route handlers
+│   ├── models/              # Database operations
+│   ├── middleware/          # Auth & error handling
+│   ├── routes/              # Route definitions
+│   ├── views/               # EJS templates
+│   └── db/                  # PostgreSQL connection
+└── public/                  # Static files (CSS, JS)
 ```
 
-## API Endpoints
+## Key Routes
 
-### Games
-- `GET /api/games` - Get all games
-- `GET /api/games/:id` - Get single game
+**Public:** `/`, `/browse`, `/games/:id`  
+**Auth:** `/auth/login`, `/auth/register`, `/auth/profile`  
+**Protected:** `/collection`, `/admin`  
+**API:** `/api/games`, `/api/shelf`, `/api/games/:id/shelf`
 
-### Shelf (Requires Authentication)
-- `POST /api/games/:id/shelf` - Add game to shelf
-- `GET /api/shelf` - Get your shelf games
-- `DELETE /api/games/:id/shelf` - Remove game from shelf
+## Technologies
 
-### Authentication
-- `GET /auth/login` - Login page
-- `POST /auth/login` - Submit login
-- `GET /auth/register` - Registration page
-- `POST /auth/register` - Submit registration
-- `POST /auth/logout` - Logout (destroy session)
-- `GET /auth/profile` - Your profile (requires auth)
-
-## Technologies Used
-- **Node.js** - Runtime environment
-- **Express.js** - Web application framework
-- **EJS** - Server-side templating engine
-- **express-ejs-layouts** - Layout support for EJS
-- **PostgreSQL** - Production database
-- **bcryptjs** - Password hashing & verification
-- **express-session** - Session management
-- **ESM Modules** - Modern JavaScript imports
-
-## Environment Variables
-- `PORT` - Server port (default: 3000)
-- `NODE_ENV` - Environment mode (development/production)
-
-You can set the PORT via command line:
-```bash
-# Windows (PowerShell)
-$env:PORT=8080; pnpm dev
-
-# Linux/Mac
-PORT=8080 pnpm dev
-```
+- **Backend:** Node.js, Express, PostgreSQL, pg
+- **Frontend:** EJS, CSS, Vanilla JavaScript
+- **Security:** bcryptjs, express-session, parameterized queries
+- **Architecture:** MVC pattern with ESM modules
 
 ## Troubleshooting
 
-### Common Issues
+**Database connection errors:** Check PostgreSQL is running, verify DATABASE_URL in `.env`  
+**Port in use:** Kill process on port 3000 or use `PORT=8080 npm run dev`  
+**Login not working:** Run `npm run db:init`, clear browser cookies  
+**Reviews not appearing:** Reviews require admin/moderator approval at `/admin`
 
-**pnpm not found**
-```bash
-npm install -g pnpm
-```
+## Deployment (Render.com)
 
-**Port already in use**
-```bash
-# Use a different port
-$env:PORT=8080; pnpm dev  # Windows PowerShell
-PORT=8080 pnpm dev        # Linux/Mac
-```
+1. Create PostgreSQL database on Render
+2. Create Web Service connected to GitHub repo
+3. Set environment variables: `NODE_ENV=production`, `SESSION_SECRET`, `DATABASE_URL`
+4. Build: `npm install` | Start: `npm start`
+5. Run `npm run db:init` in Render shell after first deploy
 
-**Database errors**
-- Re-run `pnpm run db:init`
+## License & Author
 
-**Dependencies not installing**
-```bash
-# Clear pnpm cache and reinstall
-pnpm store prune
-rm -r node_modules
-pnpm install
-```
+MIT License - Joshua Zobrist, 2026
 
-**Login/Register not working**
-- Make sure the database is initialized (run `pnpm run db:init`)
-- Check that port 3000 is not in use
-- Clear browser cookies for localhost:3000
-
-## Deployment
-
-### Render.com
-This project is configured for Render deployment:
-
-1. Connect your GitHub repository to Render
-2. Set environment variable: `NODE_ENV=production`
-3. Build command: `pnpm install`
-4. Start command: `pnpm start`
-5. Render automatically provides PostgreSQL database
-
-The `knexfile.js` automatically uses PostgreSQL in production.
-
-## License
-MIT
-
-## Contributing
-Contributions welcome! Feel free to submit issues and pull requests.
+**Acknowledgments:** GitHub Copilot (Claude Sonnet 4.5), Express.js community

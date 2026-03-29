@@ -2,7 +2,7 @@
   <div class="hero-content">
     <p class="eyebrow">Tabletop collection tracker</p>
     <h1><%= title %></h1>
-    <p>Track your collection, plan your wishlist, and get game night ready.</p>
+    <p>Track your collection, discover new games, and share your reviews.</p>
     <div class="hero-actions">
       <a href="/browse" class="button primary">Browse games</a>
       <a href="/auth/register" class="button secondary">Create account</a>
@@ -19,16 +19,16 @@
           </div>
           <div class="carousel-slide">
             <div class="carousel-panel panel-two">
-              <p class="eyebrow">Plan ahead</p>
-              <h2>Save your wishlist</h2>
-              <p>Keep the next big box on deck for game night.</p>
+              <p class="eyebrow">Discover</p>
+              <h2>Find your next game</h2>
+              <p>Browse by players, playtime, and categories.</p>
             </div>
           </div>
           <div class="carousel-slide">
             <div class="carousel-panel panel-three">
-              <p class="eyebrow">Game night ready</p>
-              <h2>Pick the vibe</h2>
-              <p>Match the table to your crew and time.</p>
+              <p class="eyebrow">Share</p>
+              <h2>Review & rate</h2>
+              <p>Help others find their next favorite game.</p>
             </div>
           </div>
         </div>
@@ -54,7 +54,7 @@
 <section id="how-it-works" class="section">
     <div class="section-header">
     <h2>How it works</h2>
-    <p>Three quick steps to build your game night flow.</p>
+    <p>Three quick steps to manage your board game collection.</p>
   </div>
 
   <div class="card-row">
@@ -77,7 +77,7 @@
           <p>Add favorites to your shelf.</p>
         </div>
         <div class="flip-card-back">
-          <p>Keep a wishlist for future nights.</p>
+          <p>Build your personal collection.</p>
         </div>
       </div>
     </div>
@@ -85,49 +85,16 @@
     <div class="flip-card">
       <div class="flip-card-inner">
         <div class="flip-card-front">
-          <h3>Play</h3>
-          <p>Plan sessions with your group.</p>
+          <h3>Review</h3>
+          <p>Rate and review your games.</p>
         </div>
         <div class="flip-card-back">
-          <p>Track what you played and loved.</p>
+          <p>Share your thoughts with the community.</p>
         </div>
       </div>
     </div>
-  </div>
-</section>
-<% if (user) { %> 
-<section id="wishlist" class="section">
-  <div class="section-header">
-    <h2>Wishlist planning</h2>
-    <p>Keep the next big box on your radar without the clutter.</p>
-  </div>
-  <div class="note">
-    <p>Add notes like "holiday gift" or "must play at meetup".</p>
   </div>
 </section>
 
-<section id="events" class="section">
-  <div class="section-header">
-    <h2>Game night events</h2>
-    <p>Schedule sessions, assign hosts, and keep the vibe cozy.</p>
-  </div>
-  <div class="timeline">
-    <div class="timeline-item">
-      <span class="tag">Fri</span>
-      <div>
-        <h3>First play</h3>
-        <p>Short rules teach + warm-up game.</p>
-      </div>
-    </div>
-    <div class="timeline-item">
-      <span class="tag">Sat</span>
-      <div>
-        <h3>Main event</h3>
-        <p>Pick a longer campaign or big box adventure.</p>
-      </div>
-    </div>
-  </div>
-  <% } %>
-</section>
 
 <script src="/js/home.js"></script>
