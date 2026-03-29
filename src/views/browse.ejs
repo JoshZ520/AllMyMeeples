@@ -1,40 +1,24 @@
 <section class="section">
-  <div class="browse-hero">
-    <div class="browse-hero-content">
-      <p class="eyebrow">Tabletop collection tracker</p>
-      <h1>Browse games</h1>
-      <p>Track your collection, plan your wishlist, and get game night ready.</p>
-      <div class="browse-hero-actions">
-        <% if (user) { %>
-          <a href="/collection" class="button primary">View my collection</a>
-        <% } else { %>
-          <a href="/auth/register" class="button primary">Create account</a>
-          <a href="/auth/login" class="button secondary">Log in</a>
-        <% } %>
-      </div>
-    </div>
-    <div class="browse-hero-card">
-      <h2>Ready to build your shelf?</h2>
-      <p>Pick a few favorites and start tracking plays.</p>
-    </div>
-  </div>
-
-  <div class="section-header">
-    <h2>Browse All Games</h2>
-    <p>Pick multiple games and add them to your shelf in one go.</p>
+  <div class="browse-header">
+    <h1>Browse All Games</h1>
+    <button id="toggle-filters" class="button secondary">Show Filters</button>
   </div>
 
   <div class="browse-summary">
-    <div class="summary-card">
-      <p class="summary-label">Your collection</p>
-      <p id="collection-count" class="summary-value">--</p>
-    </div>
-    <div id="login-hint" class="summary-card summary-muted" style="display: none;">
-      Log in to see your collection count and owned games.
-    </div>
+    <% if (user) { %>
+      <div class="summary-card">
+        <p class="summary-label">Your collection</p>
+        <p id="collection-count" class="summary-value">--</p>
+      </div>
+    <% } else { %>
+      <div class="summary-card summary-muted">
+        <p class="summary-label">Your collection</p>
+        <p class="summary-value">Log in to see your collection count and owned games.</p>
+      </div>
+    <% } %>
   </div>
 
-  <div class="browse-filters">
+  <div id="filters-container" class="browse-filters" style="display: none;">
     <div class="filter-group">
       <label for="search-games">Search</label>
       <input type="search" id="search-games" name="search" placeholder="Search by title or description" />
@@ -63,6 +47,40 @@
       </select>
     </div>
     <div class="filter-group">
+      <label for="filter-category">Category</label>
+      <select id="filter-category" name="category">
+        <option value="">Any</option>
+        <option value="Strategy">Strategy</option>
+        <option value="Family">Family</option>
+        <option value="Party">Party</option>
+        <option value="Card Game">Card Game</option>
+        <option value="Cooperative">Cooperative</option>
+        <option value="Fantasy">Fantasy</option>
+        <option value="Science Fiction">Science Fiction</option>
+        <option value="Abstract">Abstract</option>
+        <option value="Adventure">Adventure</option>
+        <option value="Horror">Horror</option>
+      </select>
+    </div>
+    <div class="filter-group">
+      <label for="filter-mechanic">Mechanic</label>
+      <select id="filter-mechanic" name="mechanic">
+        <option value="">Any</option>
+        <option value="Dice Rolling">Dice Rolling</option>
+        <option value="Card Drafting">Card Drafting</option>
+        <option value="Engine Building">Engine Building</option>
+        <option value="Set Collection">Set Collection</option>
+        <option value="Hand Management">Hand Management</option>
+        <option value="Worker Placement">Worker Placement</option>
+        <option value="Area Control">Area Control</option>
+        <option value="Deck Building">Deck Building</option>
+        <option value="Tile Placement">Tile Placement</option>
+        <option value="Deduction">Deduction</option>
+        <option value="Route Building">Route Building</option>
+        <option value="Trading">Trading</option>
+      </select>
+    </div>
+    <div class="filter-group">
   <label for="sort-by">Sort</label>
   <select id="sort-by" name="sort">
     <option value="title-asc">Title (A-Z)</option>
@@ -79,9 +97,13 @@
     <button id="bulk-add" class="button primary">Add selected to shelf</button>
   </div>
 
+  <div id="pagination-top"></div>
+
   <div id="games-container" class="card-grid">
     <p class="card-grid-loading">Loading games...</p>
   </div>
+
+  <div id="pagination-bottom"></div>
 </section>
 
 <script src="/js/browse.js"></script>

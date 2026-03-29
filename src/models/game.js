@@ -7,7 +7,9 @@ const GAME_FIELDS = [
   'min_players',
   'max_players',
   'playtime_minutes',
-  'rating'
+  'rating',
+  'categories',
+  'mechanics'
 ];
 
 function buildUpdateClause(data, fields) {

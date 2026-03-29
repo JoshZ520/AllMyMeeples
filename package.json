@@ -6,7 +6,8 @@
   "scripts": {
     "dev": "nodemon server.js",
     "start": "node server.js",
-    "db:init": "node setup-db.js"
+    "db:init": "node setup-db.js",
+    "db:reset": "node reset-games.js"
   },
   "dependencies": {
     "bcryptjs": "^3.0.3",

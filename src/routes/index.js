@@ -8,7 +8,16 @@ import {
   getUserShelf, 
   checkIfOnShelf 
 } from '../controllers/gameController.js';
-import { adminDashboard, updateUserRole } from '../controllers/adminController.js';
+import { 
+  adminDashboard, 
+  updateUserRole,
+  showGames,
+  showAddGameForm,
+  createGame,
+  showEditGameForm,
+  updateGame,
+  deleteGame
+} from '../controllers/adminController.js';
 import { requireAuth, requireRole, asyncHandler } from '../middleware/auth.js';
 import { submitReview, updateReview, deleteReview, updateReviewStatus } from '../controllers/reviewController.js';
 import { Review } from '../models/review.js';
@@ -67,6 +76,14 @@ router.get('/collection', (req, res) => {
 router.get('/admin', requireAuth, requireRole('admin'), asyncHandler(adminDashboard));
 router.post('/admin/users/:id/role', requireAuth, requireRole('admin'), asyncHandler(updateUserRole));
 router.post('/admin/reviews/:reviewId/status', requireAuth, requireRole('admin'), asyncHandler(updateReviewStatus));
+
+// Admin game management
+router.get('/admin/games', requireAuth, requireRole('admin'), asyncHandler(showGames));
+router.get('/admin/games/new', requireAuth, requireRole('admin'), showAddGameForm);
+router.post('/admin/games', requireAuth, requireRole('admin'), asyncHandler(createGame));
+router.get('/admin/games/:id/edit', requireAuth, requireRole('admin'), asyncHandler(showEditGameForm));
+router.post('/admin/games/:id', requireAuth, requireRole('admin'), asyncHandler(updateGame));
+router.post('/admin/games/:id/delete', requireAuth, requireRole('admin'), asyncHandler(deleteGame));
 
 // Review routes
 router.post('/games/:id/reviews', requireAuth, asyncHandler(submitReview));

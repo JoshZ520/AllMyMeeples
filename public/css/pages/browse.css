@@ -1,10 +1,23 @@
 /* ===== BROWSE PAGE ===== */
+.browse-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.browse-header h1 {
+  margin: 0;
+  font-size: clamp(1.5rem, 3vw, 2rem);
+  color: var(--ink);
+}
+
 .browse-hero {
   display: grid;
   grid-template-columns: 1.2fr 0.8fr;
   gap: 2rem;
   align-items: center;
-  margin-bottom: 2.5rem;
+  margin-bottom: 1.5rem;
 }
 
 .browse-hero-content .eyebrow {
@@ -59,14 +72,27 @@
   display: flex;
   gap: 1rem;
   flex-wrap: wrap;
-  margin-bottom: 1.5rem;
+  margin-bottom: 1rem;
 }
 
 .browse-filters {
   display: grid;
-  grid-template-columns: minmax(220px, 2fr) repeat(3, minmax(180px, 1fr));
+  grid-template-columns: repeat(3, 1fr);
   gap: 1rem;
-  margin-bottom: 1.5rem;
+  margin-bottom: 1rem;
+  transition: all 0.3s ease;
+}
+
+@media (max-width: 900px) {
+  .browse-filters {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 600px) {
+  .browse-filters {
+    grid-template-columns: 1fr;
+  }
 }
 
 .filter-group {
@@ -113,6 +139,11 @@
 .summary-card.summary-muted {
   color: var(--muted);
   border-style: dashed;
+}
+
+.summary-card.summary-muted .summary-value {
+  font-size: 1rem;
+  font-weight: 500;
 }
 
 .summary-label {
@@ -177,6 +208,70 @@
   display: flex;
   gap: 0.75rem;
   margin-top: 1rem;
+}
+
+/* ===== PAGINATION ===== */
+#pagination-top {
+  margin-top: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+#pagination-bottom {
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+}
+
+.pagination-controls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.pagination-pages {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.pagination-btn {
+  min-width: 40px;
+  padding: 0.6rem 1rem;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: var(--card);
+  color: var(--ink);
+  font-family: inherit;
+  font-size: 0.95rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.pagination-btn:hover:not(:disabled) {
+  background: var(--accent);
+  color: white;
+  border-color: var(--accent);
+  transform: translateY(-1px);
+}
+
+.pagination-btn.active {
+  background: var(--accent);
+  color: white;
+  border-color: var(--accent);
+  font-weight: 600;
+}
+
+.pagination-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.pagination-ellipsis {
+  padding: 0 0.5rem;
+  color: var(--muted);
+  font-weight: 600;
 }
 
 @media (max-width: 900px) {

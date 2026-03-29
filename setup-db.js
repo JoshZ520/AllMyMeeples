@@ -39,6 +39,7 @@ async function setup() {
       console.log('✓ Games seeded');
     } else {
       console.log(`✓ Database already has ${count} games`);
+      console.log('  To re-seed, delete games first with: pnpm run db:reset');
     }
 
     console.log('\n✅ Database setup complete!');
