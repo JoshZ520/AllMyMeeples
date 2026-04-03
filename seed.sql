@@ -104,6 +104,6 @@ INSERT INTO games (title, description, image_url, min_players, max_players, play
 
 INSERT INTO users (email, password, name, role) VALUES
 ('admin@allmymeeples.com', '$2b$10$2ElLclzP2GkFCM7F.v23U.1KtNo482DGVNerajR41Q/DOwIhONH0i', 'Admin User', 'admin'),
-('moderator@allmymeeples.com', '$2b$10$2ElLclzP2GkFCM7F.v23U.1KtNo482DGVNerajR41Q/DOwIhONH0i', 'Moderator User', 'moderator'),
+('mod@allmymeeples.com', '$2b$10$2ElLclzP2GkFCM7F.v23U.1KtNo482DGVNerajR41Q/DOwIhONH0i', 'Moderator User', 'moderator'),
 ('user@allmymeeples.com', '$2b$10$2ElLclzP2GkFCM7F.v23U.1KtNo482DGVNerajR41Q/DOwIhONH0i', 'Standard User', 'user')
 ON CONFLICT (email) DO NOTHING;

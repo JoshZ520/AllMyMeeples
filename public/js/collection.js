@@ -1,4 +1,7 @@
 async function loadShelf() {
+  const container = document.getElementById('shelf-games');
+  const emptyState = document.getElementById('empty-shelf');
+  
   try {
     const response = await fetch('/api/shelf');
 
@@ -7,9 +10,11 @@ async function loadShelf() {
       return;
     }
 
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+
     const games = await response.json();
-    const container = document.getElementById('shelf-games');
-    const emptyState = document.getElementById('empty-shelf');
 
     if (games.length === 0) {
       container.style.display = 'none';
@@ -17,35 +22,43 @@ async function loadShelf() {
       return;
     }
 
+    container.style.display = 'grid';
+    emptyState.style.display = 'none';
+
     container.innerHTML = games.map(game => {
       const categoryClass = game.categories && game.categories[0] 
         ? 'category-' + game.categories[0].toLowerCase().replace(/\s+/g, '-')
         : '';
       return `
-      <article class="card collection-card card-flip ${categoryClass}" data-detail-url="/games/${game.id}">
-        <div class="card-inner">
-          <div class="card-face card-front">
-            <img src="${game.image_url}" alt="${game.title}">
-            <h3>${game.title}</h3>
-            <p class="card-meta">
-              ${game.min_players}-${game.max_players} players | ${game.playtime_minutes} min
-            </p>
-            <p><strong>Rating:</strong> ⭐ ${game.rating || 'N/A'}</p>
+        <article class="card collection-card ${categoryClass}" data-detail-url="/games/${game.id}">
+          <div class="card-flip">
+            <div class="card-inner">
+              <div class="card-face card-front">
+                <img src="${game.image_url}" alt="${game.title}">
+                <h3>${game.title}</h3>
+                <p class="card-meta">
+                  ${game.min_players}-${game.max_players} players | ${game.playtime_minutes} min
+                </p>
+                <p><strong>Rating:</strong> ⭐ ${game.rating || 'N/A'}</p>
+              </div>
+              <div class="card-face card-back">
+                <p class="card-meta">Description</p>
+                <p>${game.description || 'A great game to play.'}</p>
+                <p class="card-meta">
+                  ${game.min_players}-${game.max_players} players | ${game.playtime_minutes} min
+                </p>
+                <a class="button secondary full-width" href="/games/${game.id}">View details</a>
+              </div>
+            </div>
+          </div>
+          <div class="card-actions">
             <button class="button primary full-width" data-game-id="${game.id}">
               Remove from Shelf
             </button>
           </div>
-          <div class="card-face card-back">
-            <p class="card-meta">Description</p>
-            <p>${game.description || 'A great game to play.'}</p>
-            <p class="card-meta">
-              ${game.min_players}-${game.max_players} players | ${game.playtime_minutes} min
-            </p>
-            <a class="button secondary full-width" href="/games/${game.id}">View details</a>
-          </div>
-        </div>
-      </article>
-    `).join('');
+        </article>
+      `;
+    }).join('');
 
     container.querySelectorAll('.collection-card').forEach(card => {
       card.addEventListener('click', (event) => {
@@ -66,6 +79,14 @@ async function loadShelf() {
     });
   } catch (error) {
     console.error('Error loading shelf:', error);
+    const container = document.getElementById('shelf-games');
+    const emptyState = document.getElementById('empty-shelf');
+    container.style.display = 'none';
+    emptyState.innerHTML = `
+      <p>Unable to load your collection. Please try refreshing the page.</p>
+      <p><a href="/browse" class="button primary">Browse all games</a></p>
+    `;
+    emptyState.style.display = 'block';
   }
 }
 
