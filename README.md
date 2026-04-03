@@ -80,8 +80,7 @@ AllMyMeeples/
 
 **Public:** `/`, `/browse`, `/games/:id`  
 **Auth:** `/auth/login`, `/auth/register`, `/auth/profile`  
-**Protected:** `/collection`, `/admin`  
-**API:** `/api/games`, `/api/shelf`, `/api/games/:id/shelf`
+**Protected:** `/collection`, `/admin`
 
 ## Technologies
 

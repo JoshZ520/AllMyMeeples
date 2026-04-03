@@ -103,13 +103,7 @@ INSERT INTO games (title, description, image_url, min_players, max_players, play
  '/images/resource-icon.png', 2, 5, 120, 4.3, ARRAY['Cooperative', 'Horror'], ARRAY['Worker Placement', 'Traitor Game', 'Hand Management']);
 
 INSERT INTO users (email, password, name, role) VALUES
-('admin@allmymeeples.com', '$2b$10$sgiFRZ9sXt9hEonvg0kJYOEBspIU7JGZOiQYDVwalfyK7N1N48cuS', 'Admin User', 'admin'),
-('moderator@allmymeeples.com', '$2b$10$sgiFRZ9sXt9hEonvg0kJYOEBspIU7JGZOiQYDVwalfyK7N1N48cuS', 'Moderator User', 'moderator'),
-('user@allmymeeples.com', '$2b$10$sgiFRZ9sXt9hEonvg0kJYOEBspIU7JGZOiQYDVwalfyK7N1N48cuS', 'Standard User', 'user')
-ON CONFLICT (email) DO NOTHING;
-INSERT INTO users (email, password, name, role)
-VALUES
-  ('admin@allmymeeples.com', '$2b$10$sgiFRZ9sXt9hEonvg0kJYOEBspIU7JGZOiQYDVwalfyK7N1N48cuS', 'Admin User', 'admin'),
-  ('moderator@allmymeeples.com', '$2b$10$sgiFRZ9sXt9hEonvg0kJYOEBspIU7JGZOiQYDVwalfyK7N1N48cuS', 'Moderator User', 'moderator'),
-  ('user@allmymeeples.com', '$2b$10$sgiFRZ9sXt9hEonvg0kJYOEBspIU7JGZOiQYDVwalfyK7N1N48cuS', 'Standard User', 'user')
+('admin@allmymeeples.com', '$2b$10$2ElLclzP2GkFCM7F.v23U.1KtNo482DGVNerajR41Q/DOwIhONH0i', 'Admin User', 'admin'),
+('moderator@allmymeeples.com', '$2b$10$2ElLclzP2GkFCM7F.v23U.1KtNo482DGVNerajR41Q/DOwIhONH0i', 'Moderator User', 'moderator'),
+('user@allmymeeples.com', '$2b$10$2ElLclzP2GkFCM7F.v23U.1KtNo482DGVNerajR41Q/DOwIhONH0i', 'Standard User', 'user')
 ON CONFLICT (email) DO NOTHING;
