@@ -10,7 +10,7 @@ const defaultUserSql = `
   INSERT INTO users (email, password, name, role)
   VALUES
     ('admin@allmymeeples.com', '$2b$10$sgiFRZ9sXt9hEonvg0kJYOEBspIU7JGZOiQYDVwalfyK7N1N48cuS', 'Admin User', 'admin'),
-    ('moderator@allmymeeples.com', '$2b$10$sgiFRZ9sXt9hEonvg0kJYOEBspIU7JGZOiQYDVwalfyK7N1N48cuS', 'Moderator User', 'moderator'),
+    ('mod@allmymeeples.com', '$2b$10$sgiFRZ9sXt9hEonvg0kJYOEBspIU7JGZOiQYDVwalfyK7N1N48cuS', 'Moderator User', 'moderator'),
     ('user@allmymeeples.com', '$2b$10$sgiFRZ9sXt9hEonvg0kJYOEBspIU7JGZOiQYDVwalfyK7N1N48cuS', 'Standard User', 'user')
   ON CONFLICT (email) DO NOTHING;
 `;

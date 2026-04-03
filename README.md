@@ -59,6 +59,16 @@ Visit `http://localhost:3000`
 - **Moderator:** User permissions + approve/reject reviews
 - **Admin:** Moderator permissions + manage games and user roles
 
+## Database Schema
+
+![Entity Relationship Diagram](docs/erd.png)
+
+**Tables:**
+- `users` - User accounts with role-based access
+- `games` - Board game catalog with categories and mechanics
+- `shelves` - User's personal game collections
+- `reviews` - Game reviews with approval workflow
+
 ## Project Structure
 ```
 AllMyMeeples/
