@@ -22,7 +22,7 @@ async function loadShelf() {
         ? 'category-' + game.categories[0].toLowerCase().replace(/\s+/g, '-')
         : '';
       return `
-      <article class="card collection-card card-flip ${categoryClass}" data-detail-url="/games/${game.id}">`;
+      <article class="card collection-card card-flip ${categoryClass}" data-detail-url="/games/${game.id}">
         <div class="card-inner">
           <div class="card-face card-front">
             <img src="${game.image_url}" alt="${game.title}">
