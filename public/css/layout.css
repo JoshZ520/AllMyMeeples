@@ -33,6 +33,14 @@
 
 .brand-mark {
   font-size: 1.4rem;
+  display: flex;
+  align-items: center;
+}
+
+.brand-mark img {
+  height: 32px;
+  width: auto;
+  display: block;
 }
 
 .site-nav {

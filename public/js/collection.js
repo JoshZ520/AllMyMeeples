@@ -17,8 +17,12 @@ async function loadShelf() {
       return;
     }
 
-    container.innerHTML = games.map(game => `
-      <article class="card collection-card card-flip" data-detail-url="/games/${game.id}">
+    container.innerHTML = games.map(game => {
+      const categoryClass = game.categories && game.categories[0] 
+        ? 'category-' + game.categories[0].toLowerCase().replace(/\s+/g, '-')
+        : '';
+      return `
+      <article class="card collection-card card-flip ${categoryClass}" data-detail-url="/games/${game.id}">`;
         <div class="card-inner">
           <div class="card-face card-front">
             <img src="${game.image_url}" alt="${game.title}">

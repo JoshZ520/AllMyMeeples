@@ -63,8 +63,11 @@ function renderGames(games) {
 
   container.innerHTML = games.map(game => {
     const isOwned = ownedIds.has(String(game.id));
+    const categoryClass = game.categories && game.categories[0] 
+      ? 'category-' + game.categories[0].toLowerCase().replace(/\s+/g, '-')
+      : '';
     return `
-      <article class="card browse-card ${isOwned ? 'owned' : ''}" data-game-id="${game.id}" data-detail-url="/games/${game.id}">
+      <article class="card browse-card ${isOwned ? 'owned' : ''} ${categoryClass}" data-game-id="${game.id}" data-detail-url="/games/${game.id}">
         <div class="card-flip">
           <div class="card-inner">
             <div class="card-face card-front">
@@ -153,16 +156,17 @@ function applyFilters() {
 
   filteredGames.sort((a, b) => {
     switch (sortValue) {
+        case 'title-asc':
+            return a.title.localeCompare(b.title);
         case 'title-desc':
             return b.title.localeCompare(a.title);
         case 'rating-desc':
             return (b.rating || 0) - (a.rating || 0);
-        case 'playtime-asc':
-            return (a.playtime_minutes || 0) - (b.playtime_minutes || 0);
         case 'playtime-desc':
             return (b.playtime_minutes || 0) - (a.playtime_minutes || 0);
+        case 'playtime-asc':
         default:
-            return a.title.localeCompare(b.title);
+            return (a.playtime_minutes || 0) - (b.playtime_minutes || 0);
     }
   });
 

@@ -1,6 +1,11 @@
 <section class="section">
   <div class="game-detail">
-    <div class="game-detail-media">
+    <% 
+      const categoryClass = game.categories && game.categories[0] 
+        ? 'category-' + game.categories[0].toLowerCase().replace(/\s+/g, '-')
+        : '';
+    %>
+    <div class="game-detail-media <%= categoryClass %>">
       <img src="<%= game.image_url %>" alt="<%= game.title %>">
     </div>
     <div class="game-detail-info">
