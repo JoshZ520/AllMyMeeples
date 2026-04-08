@@ -2,6 +2,8 @@
 
 A comprehensive board game collection manager built with Node.js, Express, PostgreSQL, and EJS using MVC architecture.
 
+**Live Demo:** https://allmymeeples-1.onrender.com
+
 ## AI Development Disclosure
 This project was developed with significant assistance from **GitHub Copilot** (Claude Sonnet 4.5). AI-generated code has been reviewed, tested, and customized to meet project requirements. I being the sole developer actively directed implementation decisions, debugged issues, and gained understanding of all functionality.
 
